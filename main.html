@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 챗봇</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'DM Sans', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f6f6f6;
+        }
+        .chat-container {
+            width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .chat-header {
+            background-color: #00267f;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 15px 15px 0 0;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+        .user {
+            align-self: flex-end;
+            background-color: #00267f;
+            color: white;
+        }
+        .bot {
+            align-self: flex-start;
+            background-color: #c2d94f;
+            color: black;
+        }
+        .error {
+            align-self: center;
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .input-box {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-radius: 0 0 15px 15px;
+        }
+        .input-box input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .input-box button {
+            margin-left: 10px;
+            background-color: #00267f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .input-box button:disabled {
+            background-color: #7a7a7a;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">일본어 챗봇</div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-box">
+            <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+            <button id="send-btn" onclick="sendMessage()">보내기</button>
+        </div>
+    </div>
+
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("chat-input");
+            const message = input.value.trim();
+            const sendButton = document.getElementById("send-btn");
+
+            if (message === "") return;
+
+            sendButton.disabled = true;  // 중복 클릭 방지
+            addMessage(message, "user");
+            input.value = "";
+            
+            fetch('http://127.0.0.1:5001/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ input: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.reply, "bot", data.reply_meaning);  // 한국어 뜻을 추가
+                if (data.follow_up_question) {
+                    addMessage(data.follow_up_question, "bot", data.follow_up_question_meaning);  // 후속 질문의 한국어 뜻도 추가
+                }
+                sendButton.disabled = false;  // 버튼 활성화
+            })
+            .catch(error => {
+                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
+                sendButton.disabled = false;  // 오류 발생 시 버튼 활성화
+            });
+        }
+
+        function addMessage(text, sender, meaning = "") {
+            const chatBox = document.getElementById("chat-box");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+
+            // 메시지에 한국어 뜻을 title로 추가
+            messageDiv.textContent = text;
+            if (meaning) {
+                messageDiv.title = meaning;  // 마우스를 올렸을 때 의미 표시
+            }
+            
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;  // 자동으로 스크롤 내려서 최신 메시지 보이기
+        }
+    </script>
+</body>
+</html>
