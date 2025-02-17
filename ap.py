@@ -95,4 +95,4 @@ def chat():
         return jsonify({'error': f'서버 오류: {str(e)}'}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5001) #
