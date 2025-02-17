@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 단어장</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            padding: 8px 12px;
+        }
+        .edit-btn {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function addWord(event) {
+            event.preventDefault();
+            const kanji = document.getElementById('kanji').value;
+            const meaning = document.getElementById('meaning').value;
+            const table = document.querySelector('tbody');
+            const newRow = table.insertRow();
+            const kanjiCell = newRow.insertCell(0);
+            const meaningCell = newRow.insertCell(1);
+            const actionCell = newRow.insertCell(2);
+            kanjiCell.textContent = kanji;
+            meaningCell.textContent = meaning;
+            actionCell.innerHTML = '<button class="edit-btn" onclick="editWord(this)">수정</button>';
+            document.getElementById('kanji').value = '';
+            document.getElementById('meaning').value = '';
+        }
+
+        function searchWord() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const table = document.querySelector('tbody');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const kanji = cells[0].textContent.toLowerCase();
+                const meaning = cells[1].textContent.toLowerCase();
+
+                if (kanji.includes(searchInput) || meaning.includes(searchInput)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function editWord(button) {
+            const row = button.parentNode.parentNode;
+            const kanjiCell = row.cells[0];
+            const meaningCell = row.cells[1];
+            const actionCell = row.cells[2];
+
+            const kanji = kanjiCell.textContent;
+            const meaning = meaningCell.textContent;
+
+            kanjiCell.innerHTML = `<input type="text" value="${kanji}" id="edit-kanji">`;
+            meaningCell.innerHTML = `<input type="text" value="${meaning}" id="edit-meaning">`;
+            actionCell.innerHTML = '<button onclick="saveWord(this)">저장</button>';
+        }
+
+        function saveWord(button) {
+            const row = button.parentNode.parentNode;
+            const kanjiCell = row.cells[0];
+            const meaningCell = row.cells[1];
+            const actionCell = row.cells[2];
+
+            const kanji = document.getElementById('edit-kanji').value;
+            const meaning = document.getElementById('edit-meaning').value;
+
+            kanjiCell.textContent = kanji;
+            meaningCell.textContent = meaning;
+            actionCell.innerHTML = '<button class="edit-btn" onclick="editWord(this)">수정</button>';
+        }
+    </script>
+</head>
+<body>
+    <h1>일본어 단어장</h1>
+    <form onsubmit="addWord(event)">
+        <input type="text" id="kanji" placeholder="한자" required>
+        <input type="text" id="meaning" placeholder="뜻 및 히라가나" required>
+        <input type="submit" value="추가">
+    </form>
+    <div id="searchWord">
+        <input type="text" id="search" placeholder="검색" oninput="searchWord()">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>한자</th>
+                <th>뜻 및 히라가나</th>
+                <th>액션</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>日</td>
+                <td>태양, 날 / にち</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>月</td>
+                <td>달, 월 / げつ</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>火</td>
+                <td>불 / か</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>水</td>
+                <td>물 / すい</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>木</td>
+                <td>나무 / き</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>金</td>
+                <td>금, 돈 / きん</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+            <tr>
+                <td>土</td>
+                <td>땅, 토 / ど</td>
+                <td><button class="edit-btn" onclick="editWord(this)">수정</button></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
