@@ -92,19 +92,73 @@
             background-color: #7a7a7a;
             cursor: not-allowed;
         }
+        #nickname-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #nickname-form input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #nickname-form button {
+            padding: 10px 20px;
+            background-color: #00267f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-header">일본어 챗봇</div>
         <div class="chat-box" id="chat-box"></div>
-        <div class="input-box">
-            <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+        <div id="nickname-form">
+            <input type="text" id="nickname-input" placeholder="닉네임을 입력하세요" />
+            <button onclick="setNickname()">채팅 시작</button>
+        </div>
+        <div class="input-box" id="input-box" style="display:none;">
+            <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)" />
             <button id="send-btn" onclick="sendMessage()">보내기</button>
         </div>
     </div>
 
     <script>
+        let nickname = "";
+
+        function setNickname() {
+            nickname = document.getElementById("nickname-input").value.trim();
+
+            if (nickname === "") {
+                alert("닉네임을 입력해주세요.");
+                return;
+            }
+
+            document.getElementById("nickname-form").style.display = "none";
+            document.getElementById("input-box").style.display = "flex";
+            addMessage(`こんにちは！${nickname}さん、はじめまして！`, "bot");
+
+            // 서버에 닉네임과 첫 메시지를 전달하여 후속 질문 받기
+            fetch('http://127.0.0.1:5001/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nickname: nickname, input: "" })
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.reply, "bot");
+                addMessage(data.follow_up_question, "bot");
+            })
+            .catch(error => {
+                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
+            });
+        }
+
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 sendMessage();
@@ -121,37 +175,29 @@
             sendButton.disabled = true;  // 중복 클릭 방지
             addMessage(message, "user");
             input.value = "";
-            
+
             fetch('http://127.0.0.1:5001/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ input: message })
+                body: JSON.stringify({ nickname: nickname, input: message })
             })
             .then(response => response.json())
             .then(data => {
-                addMessage(data.reply, "bot", data.reply_meaning);  // 한국어 뜻을 추가
-                if (data.follow_up_question) {
-                    addMessage(data.follow_up_question, "bot", data.follow_up_question_meaning);  // 후속 질문의 한국어 뜻도 추가
-                }
-                sendButton.disabled = false;  // 버튼 활성화
+                addMessage(data.reply, "bot");
+                addMessage(data.follow_up_question, "bot");
+                sendButton.disabled = false;
             })
             .catch(error => {
                 addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
-                sendButton.disabled = false;  // 오류 발생 시 버튼 활성화
+                sendButton.disabled = false;
             });
         }
 
-        function addMessage(text, sender, meaning = "") {
+        function addMessage(text, sender) {
             const chatBox = document.getElementById("chat-box");
             const messageDiv = document.createElement("div");
             messageDiv.classList.add("message", sender);
-
-            // 메시지에 한국어 뜻을 title로 추가
             messageDiv.textContent = text;
-            if (meaning) {
-                messageDiv.title = meaning;  // 마우스를 올렸을 때 의미 표시
-            }
-            
             chatBox.appendChild(messageDiv);
             chatBox.scrollTop = chatBox.scrollHeight;  // 자동으로 스크롤 내려서 최신 메시지 보이기
         }
