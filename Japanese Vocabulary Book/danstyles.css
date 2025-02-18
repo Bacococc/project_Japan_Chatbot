@@ -1,48 +1,137 @@
+/* 전체 배경 색상 및 폰트 설정 */
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #fbd7de; /* 배경 색 변경 */
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 20px;
+    background-color: #e3f2fd;
+    color: #333;
 }
+
+/* 테이블 스타일 */
 table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 600px;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
 }
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  text-align: center; /* 텍스트를 중앙에 배치 */
-  background-color: #ffffff; /* 테이블 셀 배경 색 흰색으로 설정 */
+
+table:hover {
+    transform: scale(1.02);
 }
+
+/* 테이블 헤더 및 셀 스타일 */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
 th {
-  background-color: #f2f2f2;
+    background-color: #2196F3;
+    color: white;
+    font-weight: bold;
 }
+
+/* 폼 스타일 */
 form {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 input[type="text"] {
-  padding: 8px;
-  margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    outline: none;
 }
+
 input[type="submit"] {
-  padding: 8px 12px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
 }
+
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    transform: scale(1.05);
+}
+
+/* 수정 버튼 스타일 */
 .edit-btn {
-  margin-left: 10px;
-  cursor: pointer;
-  display: block; /* 버튼을 블록 요소로 설정 */
-  margin: 0 auto; /* 버튼을 중앙에 배치 */
+    margin-left: 10px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #42a5f5;
+    color: white;
+    transition: background 0.3s, transform 0.2s;
 }
+
+.edit-btn:hover {
+    background: #1e88e5;
+    transform: translateY(-2px);
+}
+
+/* 테이블 셀 너비 조정 */
 td:nth-child(2) {
-  width: 150px; /* 뜻 칸의 너비를 조금 줄임 */
+    width: 150px;
 }
+
 td:nth-child(3) {
-  width: 150px; /* 히라가나 칸의 너비를 늘림 */
-  text-align: center; /* 체크박스를 중앙에 배치 */
+    width: 150px;
+    text-align: center;
 }
+
 td:nth-child(4) {
-  width: 70px; /* 외움 칸의 너비를 조금 늘림 */
-  text-align: center; /* 체크박스를 중앙에 배치 */
-  padding: 0; /* 패딩 제거 */
+    width: 70px;
+    text-align: center;
+    padding: 0;
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.table-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 검색 및 초기화 버튼 스타일 */
+#searchWord {
+    display: flex;
+    align-items: center;
+}
+
+#search {
+    width: 150px; /* 검색 칸의 길이를 줄임 */
+}
+
+#clear-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #f44336, #e53935);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 10px;
+}
+
+#clear-button:hover {
+    background: linear-gradient(135deg, #e53935, #d32f2f);
+    transform: scale(1.05);
 }
