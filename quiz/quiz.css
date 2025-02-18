@@ -1,0 +1,49 @@
+/* quiz.css */
+body {
+    font-family: "Meiryo", "MS PGothic", sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+h1 {
+    color: #4a4a4a;
+    text-align: center;
+}
+#quiz-container {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+button {
+    padding: 10px;
+    margin: 5px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    flex-basis: 45%;
+}
+button:hover {
+    background-color: #45a049;
+}
+#next-button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+ruby rt {
+    display: none; /* 히라가나 기본적으로 숨기기 */
+}
+.show-hiragana ruby rt {
+    display: inline; /* 히라가나 표시 */
+}
