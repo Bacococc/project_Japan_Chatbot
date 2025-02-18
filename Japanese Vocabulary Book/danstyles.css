@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #fbd7de; /* 배경 색 변경 */
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: center; /* 텍스트를 중앙에 배치 */
+  background-color: #ffffff; /* 테이블 셀 배경 색 흰색으로 설정 */
+}
+th {
+  background-color: #f2f2f2;
+}
+form {
+  margin-bottom: 20px;
+}
+input[type="text"] {
+  padding: 8px;
+  margin-right: 10px;
+}
+input[type="submit"] {
+  padding: 8px 12px;
+}
+.edit-btn {
+  margin-left: 10px;
+  cursor: pointer;
+  display: block; /* 버튼을 블록 요소로 설정 */
+  margin: 0 auto; /* 버튼을 중앙에 배치 */
+}
+td:nth-child(2) {
+  width: 150px; /* 뜻 칸의 너비를 조금 줄임 */
+}
+td:nth-child(3) {
+  width: 150px; /* 히라가나 칸의 너비를 늘림 */
+  text-align: center; /* 체크박스를 중앙에 배치 */
+}
+td:nth-child(4) {
+  width: 70px; /* 외움 칸의 너비를 조금 늘림 */
+  text-align: center; /* 체크박스를 중앙에 배치 */
+  padding: 0; /* 패딩 제거 */
+}
