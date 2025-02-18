@@ -11,8 +11,8 @@
     <h1>일본어 단어장</h1>
     <form onsubmit="addWord(event)">
       <input type="text" id="kanji" placeholder="한자" required oninput="convertKanji()" />
-      <input type="text" id="meaning" placeholder="뜻" required />
       <input type="text" id="hiragana" placeholder="히라가나" required />
+      <input type="text" id="meaning" placeholder="뜻" required />
       <input type="submit" value="추가" />
     </form>
     <button onclick="clearWords()">초기화</button> <!-- 초기화 버튼 추가 -->
