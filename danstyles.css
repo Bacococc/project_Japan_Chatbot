@@ -1,0 +1,154 @@
+/* 전체 배경 색상 및 폰트 설정 */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 20px;
+    background-color: #e3f2fd;
+    color: #333;
+}
+
+/* 테이블 스타일 */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+table:hover {
+    transform: scale(1.015);
+}
+
+/* 테이블 헤더 및 셀 스타일 */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+th {
+    background-color: #2196F3;
+    color: white;
+    font-weight: bold;
+}
+
+/* 폼 스타일 */
+form {
+    margin-bottom: 20px;
+}
+
+/*입력*/
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="text"]#meaning {
+    margin-right: 5px;
+}
+
+input[type="submit"] {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    transform: scale(1.05);
+}
+
+input[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+
+/* 수정 버튼 스타일 */
+.edit-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #42a5f5;
+    color: white;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.edit-btn:hover {
+    background: #1e88e5;
+    transform: translateY(-2px);
+}
+
+/* 테이블 셀 너비 조정 */
+td:nth-child(2) {
+    width: 150px;
+}
+
+td:nth-child(3) {
+    width: 150px;
+    text-align: center;
+}
+
+td:nth-child(4) {
+    width: 70px;
+    text-align: center;
+    padding: 0;
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.table-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 검색 및 초기화 버튼 스타일 */
+#searchWord {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 320px;
+}
+
+#search {
+    flex-grow: 1;
+    width: 150px;
+}
+
+#clear-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #f44336, #e53935);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 10px;
+}
+
+#clear-button:hover {
+    background: linear-gradient(135deg, #e53935, #d32f2f);
+    transform: scale(1.05);
+}
+
+#clear-button:active {
+    transform: scale(0.95);
+}

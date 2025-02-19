@@ -4,181 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>일본어 단어장</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #fbd7de; /* 배경 색 변경 */
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 600px;
-      }
-      th,
-      td {
-        border: 1px solid #ddd;
-        padding: 8px 12px;
-        text-align: left;
-        background-color: #ffffff; /* 테이블 셀 배경 색 흰색으로 설정 */
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      form {
-        margin-bottom: 20px;
-      }
-      input[type="text"] {
-        padding: 8px;
-        margin-right: 10px;
-      }
-      input[type="submit"] {
-        padding: 8px 12px;
-      }
-      .edit-btn {
-        margin-left: 10px;
-        cursor: pointer;
-      }
-    </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", loadWords);
-
-      function addWord(event) {
-        event.preventDefault();
-        const kanji = document.getElementById("kanji").value;
-        const meaning = document.getElementById("meaning").value;
-        const table = document.querySelector("tbody");
-        const newRow = table.insertRow();
-        const kanjiCell = newRow.insertCell(0);
-        const meaningCell = newRow.insertCell(1);
-        const checkCell = newRow.insertCell(2);
-        const actionCell = newRow.insertCell(3);
-        kanjiCell.textContent = kanji;
-        meaningCell.textContent = meaning;
-        checkCell.innerHTML =
-          '<input type="checkbox" onclick="toggleLearned(this)">';
-        actionCell.innerHTML =
-          '<button class="edit-btn" onclick="editWord(this)">수정</button>';
-        document.getElementById("kanji").value = "";
-        document.getElementById("meaning").value = "";
-
-        saveWordToLocalStorage(kanji, meaning, false);
-      }
-
-      function searchWord() {
-        const searchInput = document
-          .getElementById("search")
-          .value.toLowerCase();
-        const table = document.querySelector("tbody");
-        const rows = table.getElementsByTagName("tr");
-
-        for (let i = 0; i < rows.length; i++) {
-          const cells = rows[i].getElementsByTagName("td");
-          const kanji = cells[0].textContent.toLowerCase();
-          const meaning = cells[1].textContent.toLowerCase();
-
-          if (kanji.includes(searchInput) || meaning.includes(searchInput)) {
-            rows[i].style.display = "";
-          } else {
-            rows[i].style.display = "none";
-          }
-        }
-      }
-
-      function editWord(button) {
-        const row = button.parentNode.parentNode;
-        const kanjiCell = row.cells[0];
-        const meaningCell = row.cells[1];
-        const actionCell = row.cells[3];
-
-        const kanji = kanjiCell.textContent;
-        const meaning = meaningCell.textContent;
-
-        kanjiCell.innerHTML = `<input type="text" value="${kanji}" id="edit-kanji">`;
-        meaningCell.innerHTML = `<input type="text" value="${meaning}" id="edit-meaning">`;
-        actionCell.innerHTML = '<button onclick="saveWord(this)">저장</button>';
-      }
-
-      function saveWord(button) {
-        const row = button.parentNode.parentNode;
-        const kanjiCell = row.cells[0];
-        const meaningCell = row.cells[1];
-        const checkCell = row.cells[2];
-        const actionCell = row.cells[3];
-
-        const kanji = document.getElementById("edit-kanji").value;
-        const meaning = document.getElementById("edit-meaning").value;
-        const isLearned = checkCell.querySelector(
-          'input[type="checkbox"]'
-        ).checked;
-
-        kanjiCell.textContent = kanji;
-        meaningCell.textContent = meaning;
-        checkCell.innerHTML = `<input type="checkbox" onclick="toggleLearned(this)" ${
-          isLearned ? "checked" : ""
-        }>`;
-        actionCell.innerHTML =
-          '<button class="edit-btn" onclick="editWord(this)">수정</button>';
-
-        updateWordInLocalStorage(kanji, meaning, isLearned);
-      }
-
-      function saveWordToLocalStorage(kanji, meaning, isLearned) {
-        const words = JSON.parse(localStorage.getItem("words")) || [];
-        words.push({ kanji, meaning, isLearned });
-        localStorage.setItem("words", JSON.stringify(words));
-      }
-
-      function updateWordInLocalStorage(kanji, meaning, isLearned) {
-        const words = JSON.parse(localStorage.getItem("words")) || [];
-        const index = words.findIndex((word) => word.kanji === kanji);
-        if (index !== -1) {
-          words[index].meaning = meaning;
-          words[index].isLearned = isLearned;
-        } else {
-          words.push({ kanji, meaning, isLearned });
-        }
-        localStorage.setItem("words", JSON.stringify(words));
-      }
-
-      function loadWords() {
-        const words = JSON.parse(localStorage.getItem("words")) || [];
-        const table = document.querySelector("tbody");
-        table.innerHTML = ""; // 기존 단어 목록 초기화
-
-        words.forEach((word) => {
-          const newRow = table.insertRow();
-          const kanjiCell = newRow.insertCell(0);
-          const meaningCell = newRow.insertCell(1);
-          const checkCell = newRow.insertCell(2);
-          const actionCell = newRow.insertCell(3);
-          kanjiCell.textContent = word.kanji;
-          meaningCell.textContent = word.meaning;
-          checkCell.innerHTML = `<input type="checkbox" onclick="toggleLearned(this)" ${
-            word.isLearned ? "checked" : ""
-          }>`;
-          actionCell.innerHTML =
-            '<button class="edit-btn" onclick="editWord(this)">수정</button>';
-        });
-      }
-
-      function toggleLearned(checkbox) {
-        const row = checkbox.parentNode.parentNode;
-        const kanji = row.cells[0].textContent;
-        const meaning = row.cells[1].textContent;
-        const isLearned = checkbox.checked;
-
-        updateWordInLocalStorage(kanji, meaning, isLearned);
-      }
-    </script>
+    <link rel="stylesheet" href="danstyles.css" />
+    <script src="dan.js"></script>
   </head>
   <body>
     <h1>일본어 단어장</h1>
+    <!-- 단어 추가 폼 -->
     <form onsubmit="addWord(event)">
-      <input type="text" id="kanji" placeholder="한자" required />
-      <input type="text" id="meaning" placeholder="뜻 및 히라가나" required />
+      <input type="text" id="kanji" placeholder="한자" required oninput="convertKanji()" />
+      <input type="text" id="hiragana" placeholder="히라가나" required />
+      <input type="text" id="meaning" placeholder="뜻" required />
       <input type="submit" value="추가" />
     </form>
+    <!-- 검색 및 초기화 버튼 -->
     <div id="searchWord">
       <input
         type="text"
@@ -186,13 +24,16 @@
         placeholder="검색"
         oninput="searchWord()"
       />
+      <button id="clear-button" onclick="clearWords()">초기화</button> <!-- 초기화 버튼 -->
     </div>
+    <!-- 단어 목록 테이블 -->
     <table>
       <thead>
         <tr>
           <th>한자</th>
-          <th>뜻 및 히라가나</th>
-          <th>외움</th>
+          <th>히라가나</th>
+          <th>뜻</th>
+          <th>✔️</th>
         </tr>
       </thead>
       <tbody>
@@ -201,7 +42,3 @@
     </table>
   </body>
 </html>
-
-<!--체크박스를 클릭하면 toggleLearned 함수가 호출되어 로컬 스토리지에 체크 상태를 저장하고, 
-saveWordToLocalStorage와 updateWordInLocalStorage 함수는 단어와 함께 체크 상태를 저장하거나 업데이트? 
-loadWords 함수는 페이지가 로드될 때 로컬 스토리지에서 단어와 체크 상태를 불러와 테이블에 표시!-->

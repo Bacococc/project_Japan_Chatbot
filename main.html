@@ -25,12 +25,13 @@
             flex-direction: column;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            background-color: #FBD7DE;
         }
         .chat-header {
-            background-color: #00267f;
-            color: white;
-            text-align: center;
+            background-color: #FBD7DE;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: grey;
+            text-align: left;
             padding: 15px;
             font-size: 18px;
             border-radius: 15px 15px 0 0;
@@ -45,25 +46,36 @@
         .message {
             margin: 5px 0;
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 15px;
             max-width: 75%;
             word-wrap: break-word;
         }
+
+        .userMassage {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 15px 20px 0 15px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+
+        .botMassage {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 20px 15px 15px 0;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+
         .user {
             align-self: flex-end;
-            background-color: #00267f;
-            color: white;
+            background-color: #B1EE6A;
+            color: black;
         }
         .bot {
             align-self: flex-start;
-            background-color: #c2d94f;
+            background-color: #FCFCFC;
             color: black;
-        }
-        .error {
-            align-self: center;
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
         }
         .input-box {
             display: flex;
@@ -74,43 +86,19 @@
         .input-box input {
             flex: 1;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 15px;
             padding: 10px;
             font-size: 14px;
         }
         .input-box button {
             margin-left: 10px;
-            background-color: #00267f;
+            background-color: grey;
             color: white;
             border: none;
             padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 15px;
             cursor: pointer;
             font-size: 14px;
-        }
-        .input-box button:disabled {
-            background-color: #7a7a7a;
-            cursor: not-allowed;
-        }
-        #nickname-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        #nickname-form input {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        #nickname-form button {
-            padding: 10px 20px;
-            background-color: #00267f;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -118,88 +106,43 @@
     <div class="chat-container">
         <div class="chat-header">일본어 챗봇</div>
         <div class="chat-box" id="chat-box"></div>
-        <div id="nickname-form">
-            <input type="text" id="nickname-input" placeholder="닉네임을 입력하세요" />
-            <button onclick="setNickname()">채팅 시작</button>
-        </div>
-        <div class="input-box" id="input-box" style="display:none;">
-            <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)" />
-            <button id="send-btn" onclick="sendMessage()">보내기</button>
+        <div class="input-box">
+            <input type="text" id="chat-input" placeholder="메시지를 입력하세요...">
+            <button onclick="sendMessage()">보내기</button>
         </div>
     </div>
 
     <script>
-        let nickname = "";
-
-        function setNickname() {
-            nickname = document.getElementById("nickname-input").value.trim();
-
-            if (nickname === "") {
-                alert("닉네임을 입력해주세요.");
-                return;
-            }
-
-            document.getElementById("nickname-form").style.display = "none";
-            document.getElementById("input-box").style.display = "flex";
-            addMessage(`こんにちは！${nickname}さん、はじめまして！`, "bot");
-
-            // 서버에 닉네임과 첫 메시지를 전달하여 후속 질문 받기
-            fetch('http://127.0.0.1:5001/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nickname: nickname, input: "" })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addMessage(data.reply, "bot");
-                addMessage(data.follow_up_question, "bot");
-            })
-            .catch(error => {
-                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
-            });
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                sendMessage();
-            }
-        }
-
         function sendMessage() {
             const input = document.getElementById("chat-input");
             const message = input.value.trim();
-            const sendButton = document.getElementById("send-btn");
-
             if (message === "") return;
-
-            sendButton.disabled = true;  // 중복 클릭 방지
-            addMessage(message, "user");
+            
+            const chatBox = document.getElementById("chat-box");
+            
+            const userMessage = document.createElement("div");
+            userMessage.className = "userMassage user";
+            userMessage.textContent = message;
+            chatBox.appendChild(userMessage);
             input.value = "";
-
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
             fetch('http://127.0.0.1:5001/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nickname: nickname, input: message })
+                body: JSON.stringify({ input: message })
             })
             .then(response => response.json())
             .then(data => {
-                addMessage(data.reply, "bot");
-                addMessage(data.follow_up_question, "bot");
-                sendButton.disabled = false;
+                const botMessage = document.createElement("div");
+                botMessage.className = "message bot";
+                botMessage.textContent = data.reply;
+                chatBox.appendChild(botMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
             })
             .catch(error => {
-                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
-                sendButton.disabled = false;
+                console.error('Error:', error);
             });
-        }
-
-        function addMessage(text, sender) {
-            const chatBox = document.getElementById("chat-box");
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message", sender);
-            messageDiv.textContent = text;
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;  // 자동으로 스크롤 내려서 최신 메시지 
         }
     </script>
 </body>
