@@ -130,6 +130,7 @@
 
     <script>
         let nickname = "";
+        let conversationHistory = [];  // 대화 기록을 클라이언트에서 관리
 
         function setNickname() {
             nickname = document.getElementById("nickname-input").value.trim();
@@ -139,24 +140,21 @@
                 return;
             }
 
+            // 첫 마디에서 랜덤한 항목을 선택
+            const items = ["色", "食べ物", "旅行先", "趣味"];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+
+            // 랜덤 항목을 포함한 첫 마디 메시지 (일본어로 변경)
+            const firstMessage = `こんにちは、${nickname}さん！私はあなたの日本語学習をサポートするアシ助です！まず、あなたの好きな${randomItem}を教えてください！`;
+
             document.getElementById("nickname-form").style.display = "none";
             document.getElementById("input-box").style.display = "flex";
-            addMessage(`こんにちは！${nickname}さん、はじめまして！`, "bot");
+            
+            // 첫 메시지를 봇으로 출력
+            addMessage(firstMessage, "bot");
 
-            // 서버에 닉네임과 첫 메시지를 전달하여 후속 질문 받기
-            fetch('http://127.0.0.1:5001/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nickname: nickname, input: "" })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addMessage(data.reply, "bot");
-                addMessage(data.follow_up_question, "bot");
-            })
-            .catch(error => {
-                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
-            });
+            // 서버에 첫 메시지를 보냄
+            sendToServer(firstMessage);
         }
 
         function handleKeyPress(event) {
@@ -172,25 +170,11 @@
 
             if (message === "") return;
 
-            sendButton.disabled = true;  // 중복 클릭 방지
+            sendButton.disabled = true;
             addMessage(message, "user");
             input.value = "";
 
-            fetch('http://127.0.0.1:5001/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nickname: nickname, input: message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                addMessage(data.reply, "bot");
-                addMessage(data.follow_up_question, "bot");
-                sendButton.disabled = false;
-            })
-            .catch(error => {
-                addMessage("서버 오류가 발생했습니다. 다시 시도해 주세요.", "error");
-                sendButton.disabled = false;
-            });
+            sendToServer(message);
         }
 
         function addMessage(text, sender) {
@@ -199,8 +183,66 @@
             messageDiv.classList.add("message", sender);
             messageDiv.textContent = text;
             chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;  // 자동으로 스크롤 내려서 최신 메시지 
+            chatBox.scrollTop = chatBox.scrollHeight;  // 최신 메시지가 보이도록 스크롤
+
+            // 대화 기록에 추가
+            conversationHistory.push({ role: sender === 'user' ? 'user' : 'assistant', content: text });
         }
+
+        function sendToServer(message) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30초 타임아웃
+
+            addMessage("メッセージを処理中です...", "bot");
+
+            fetch('http://localhost:5001/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    input: message,
+                    history: conversationHistory  // 클라이언트의 대화 기록을 함께 전송
+                }),
+                signal: controller.signal
+            })
+            .then(response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                removeLoadingMessage();
+                if (data.reply) {
+                    addMessage(data.reply, "bot");
+                }
+
+                // 서버 응답을 대화 기록에 추가
+                conversationHistory.push({ role: 'assistant', content: data.reply });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                removeLoadingMessage();
+                if (error.name === 'AbortError') {
+                    addMessage("サーバーの応答がタイムアウトしました。再試行してください。", "error");
+                } else {
+                    addMessage("サーバーエラーが発生しました。再試行してください。", "error");
+                }
+            })
+            .finally(() => {
+                document.getElementById("send-btn").disabled = false;
+            });
+        }
+
+        function removeLoadingMessage() {
+            const chatBox = document.getElementById("chat-box");
+            const loadingMessage = chatBox.querySelector(".message.bot");
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
+        }
+
     </script>
 </body>
 </html>
+
