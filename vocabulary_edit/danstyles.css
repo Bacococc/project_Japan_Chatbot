@@ -18,7 +18,7 @@ table {
 }
 
 table:hover {
-    transform: scale(1.015);
+    transform: scale(1.013);
 }
 
 /* 테이블 헤더 및 셀 스타일 */
@@ -87,7 +87,6 @@ input[type="submit"]:active {
 
 .edit-btn:hover {
     background: #1e88e5;
-    transform: translateY(-2px);
 }
 
 /* 테이블 셀 너비 조정 */
