@@ -1,49 +1,55 @@
-import logging
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from services.openai_service import get_openai_response  # OpenAI API 호출
+import datetime
+import os
+import json
 
-# Blueprint 생성
 chat_bp = Blueprint('chat', __name__)
 
-# 로깅 설정
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# 세션 ID와 대화 기록을 저장할 디렉토리 설정
+HISTORY_DIR = "chat_history"
+if not os.path.exists(HISTORY_DIR):
+    os.makedirs(HISTORY_DIR)
+
+def get_today_date():
+    today = datetime.datetime.now()
+    return today.strftime("%Y年 %m月 %d日")
+
+# 로그인 확인
+def check_login():
+    if 'nickname' not in session:
+        return jsonify({"error": "로그인 필요"}), 403
+    return None
 
 @chat_bp.route('/chat', methods=['POST'])
 def chat():
+    # 로그인 확인
+    login_check = check_login()
+    if login_check:
+        return login_check
+
     if request.headers['Content-Type'] != 'application/json':
         return jsonify({"error": "Content-Type must be application/json"}), 400
 
     data = request.json
-    if not data:
-        return jsonify({"error": "Invalid JSON format"}), 400
-
     user_input = data.get("input", "").strip()
     conversation_history = data.get("history", [])
 
     if not user_input:
-        return jsonify({"error": "入力が空です。"}), 400
+        return jsonify({"error": "입력이 비어 있습니다."}), 400
 
-    if not conversation_history:
-        conversation_history = [
-            {"role": "system", "content": "あなたはフレンドリーな日本語教師’アシ助’です。"},
-            {"role": "system", "content": "会話はJLPT N3レベルの単語のみを使い、シンプルで自然な日本語にしてください。"},
-            {"role": "system", "content": "ユーザーの回答に基づいて、関連する質問をして会話を続けてください。"},
-            {"role": "system", "content": "ユーザーに毎回質問をし、質問과会話は短く（1文）、できるだけ会話が自然に流れるようにします。"}
-        ]
+    # 세션 ID 추출
+    session_id = session.get('session_id', None)
+    if not session_id:
+        session['session_id'] = str(datetime.datetime.now().timestamp())  # 새로운 세션 ID 생성
 
-    # 사용자 입력 추가
-    conversation_history.append({"role": "user", "content": user_input})
+    # 오늘 날짜 가져오기
+    today_date = get_today_date()
 
-    try:
-        # OpenAI 서비스 호출
-        bot_reply = get_openai_response(conversation_history)  # ✅ response 대신 바로 bot_reply 반환
+    # 대화 처리
+    bot_reply = get_openai_response(conversation_history)
 
-        # 대화 기록에 봇의 답변 추가
-        conversation_history.append({"role": "assistant", "content": bot_reply})
+    # 대화 저장
+    save_conversation(session['session_id'], today_date, conversation_history)
 
-        return jsonify({"reply": bot_reply, "history": conversation_history})
-
-    except Exception as e:
-        logger.error(f"Error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+    return jsonify({"reply": bot_reply, "history": conversation_history})

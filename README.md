@@ -15,3 +15,24 @@ OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하
 
 
 ## 📂 프로젝트 구조
+├── app.py                 # Flask 서버의 엔트리 포인트
+├── requirements.txt       # 프로젝트에 필요한 Python 패키지 목록
+├── .env                   # 환경 변수 파일 (API 키 등)
+├── services               # OpenAI API와의 통신을 처리하는 서비스 모듈
+│   └── openai_service.py  # OpenAI API 호출 및 응답 처리
+├── routes
+|   └── chat.py            # Flask 애플리케이션의 Blueprint를 사용하여 대화 API 정의
+├── config
+|   └── config.py          # 환경 변수 로드
+├── static                 # 정적 파일 (CSS, JS, 이미지 등)
+│   └── style.css          # 기본 스타일 파일
+│   └── script.js          # 클라이언트 사이드 JavaScript 코드
+|   └── index.html         # 메인 페이지 HTML 파일
+└── README.md              # 프로젝트 설명 및 사용법
+
+## 🛠️ 기술 스택
+- 프론트엔드: HTML, CSS, JavaScript
+- 백엔드: Flask
+- API: OpenAI API
+- 문서화: Swagger UI
+- 기타: dotenv, CORS, Python (Flask), Fetch API, etc.
