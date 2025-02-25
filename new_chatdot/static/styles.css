@@ -1,104 +1,257 @@
-/* 전체 레이아웃 */
-.container {
+/* 기본 바디 스타일 설정 */
+body {
+  display: flex; /* Flexbox를 사용하여 레이아웃을 배치 */
+  margin: 0;
+  font-family: Arial, sans-serif; /* 기본 글꼴 설정 */
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+  width: 80px; /* 사이드바 너비 */
+  height: 100vh; /* 화면 전체 높이 */
+  background-color: #fafafa; /* 배경색 */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
   display: flex;
-  justify-content: space-between;
-  height: 100vh;
+  flex-direction: column; /* 세로로 요소 배치 */
+  align-items: center; /* 가로 중앙 정렬 */
+  padding: 20px 0; /* 위아래 여백 */
 }
 
-.chat-history {
-  width: 30%;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-  background-color: #fafafa;
+/* 사이드바 제목 스타일 */
+.sidebar h2 {
+  color: #000000; /* 제목 색상 */
+  font-size: 15px; /* 글꼴 크기 */
+  margin-bottom: 20px; /* 아래 여백 */
 }
 
-.chat-history h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-#historyList {
-  list-style-type: none;
+/* 사이드바 내 링크 목록 스타일 */
+.sidebar ul {
+  list-style: none; /* 기본 리스트 스타일 제거 */
   padding: 0;
-}
-
-.history-item {
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #e6e6e6;
-  border-radius: 8px;
-}
-
-.chat-container {
-  width: 65%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* 세로로 링크 배치 */
+  align-items: center; /* 가로 중앙 정렬 */
 }
 
+/* 각 리스트 항목 스타일 */
+.sidebar ul li {
+  width: 100%;
+  text-align: center; /* 텍스트 가운데 정렬 */
+  margin: 15px 0; /* 위아래 여백 */
+}
+
+/* 각 링크 스타일 */
+#home {
+  text-decoration: none; /* 밑줄 제거 */
+  font-size: 1.1rem; /* 글꼴 크기 */
+  color: #fff; /* 글꼴 색상 */
+  background: #ffbdcd; /* 배경색 */
+  padding: 10px; /* 여백 */
+  border-radius: 50%; /* 둥근 모서리 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로로 중앙 정렬 */
+  width: 40px;
+  height: 40px;
+  transition: 0.3s; /* 부드러운 트랜지션 효과 */
+  margin: 10px /* 가로 중앙 정렬 */
+}
+
+#quiz, 
+#vocab {
+  text-decoration: none; /* 밑줄 제거 */
+  font-size: 1.1rem; /* 글꼴 크기 */
+  color: #fff; /* 글꼴 색상 */
+  background: #ffffff; /* 배경색 */
+  padding: 10px; /* 여백 */
+  border-radius: 50%; /* 둥근 모서리 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로로 중앙 정렬 */
+  width: 40px;
+  height: 40px;
+  transition: 0.3s; /* 부드러운 트랜지션 효과 */
+  margin: 10px;
+}
+
+/* 링크 hover 시 효과 */
+.sidebar ul li a:hover {
+  background: #FF729F; /* 배경색 변화 */
+  transform: scale(1.05); /* 크기 확대 */
+  padding: 10px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center; /* 세로로 중앙 정렬 */
+  width: 40px;
+  height: 40px;
+}
+
+/* 메인 컨테이너 스타일 */
+.main-container {
+  flex-grow: 1; /* 남은 공간 차지 */
+  display: flex;
+  flex-direction: column; /* 세로로 배치 */
+  align-items: center; /* 가로 중앙 정렬 */
+  justify-content: center; /* 세로 중앙 정렬 */
+  height: 100vh; /* 화면 전체 높이 */
+  padding: 20px; /* 여백 */
+}
+
+/* 채팅 컨테이너 스타일 */
+.chat-container {
+  width: 80%;
+  max-width: 1000px; /* 최대 너비 */
+  background: white; /* 배경색 */
+  border-radius: 12px; /* 둥근 모서리 */
+  border: 1px solid #E5E7EB; /* 테두리 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+  padding: 20px; /* 여백 */
+  display: flex;
+  flex-direction: column; /* 세로로 배치 */
+  height: 550px; /* 높이 고정 */
+}
+
+/* 채팅 메시지 영역 스타일 */
+.chat-box {
+  flex-grow: 1; /* 남은 공간 차지 */
+  overflow-y: auto; /* 세로로 스크롤 가능 */
+  padding-bottom: 10px; /* 하단 여백 */
+}
+
+/* 입력 창 스타일 */
+.input-container {
+  display: flex;
+  gap: 12px; /* 입력창과 버튼 사이 간격 */
+}
+
+/* 텍스트 영역 스타일 */
+textarea {
+  flex-grow: 1; /* 남은 공간 차지 */
+  padding: 12px; /* 여백 */
+  border: 1px solid #E5E7EB; /* 테두리 */
+  border-radius: 5px; /* 둥근 모서리 */
+  resize: none; /* 크기 조정 불가 */
+}
+
+/* 기본 메시지 스타일 */
 .chat-box {
   flex-grow: 1;
-  padding: 20px;
   overflow-y: auto;
-  border-bottom: 1px solid #ddd;
-  background-color: #fafafa;
+  padding-bottom: 10px;
 }
 
-.chat-message {
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 10px;
+.message {
+  display: flex;
+  margin-bottom: 10px;
+  max-width: 70%;
   word-wrap: break-word;
 }
 
+/* 유저 메시지 스타일 */
 .user-message {
-  background-color: #d1f7d1;
-  text-align: right;
+  justify-content: flex-end; /* 우측 정렬 */
 }
 
+.user-message .message-text {
+  background-color: #ffbdcd; /* 유저 메시지 배경색 */
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 16px;
+  max-width: 80%;
+}
+
+/* 봇 메시지 스타일 */
 .bot-message {
-  background-color: #e6e6e6;
-  text-align: left;
+  justify-content: flex-start; /* 좌측 정렬 */
 }
 
-.input-container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-textarea {
-  width: 100%;
-  height: 60px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.bot-message .message-text {
+  background-color: #e5e7eb; /* 봇 메시지 배경색 */
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 20px;
   font-size: 16px;
-  resize: none;
-  margin-bottom: 10px;
+  max-width: 80%;
 }
 
+/* 버튼 스타일 */
 button {
-  padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
+  padding: 10px 20px; /* 여백 */
+  background: #FF3E6C; /* 배경색 */
+  color: white; /* 글꼴 색상 */
+  border: none; /* 테두리 제거 */
+  border-radius: 5px; /* 둥근 모서리 */
+  cursor: pointer; /* 클릭 가능한 손 모양 커서 */
 }
 
+/* 버튼 hover 시 효과 */
 button:hover {
-  background-color: #45a049;
+  background: #FF729F; /* 배경색 변화 */
 }
 
+#chatEmojisDisplay {
+  font-size: 20px; /* 이모지 크기 */
+  font-weight: bold; /* 글꼴 두껍게 */
+  margin: 20px;
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  position: absolute; /* 절대 위치 */
+  top: 10px; /* 상단에서 10px 떨어짐 */
+  right: 130px; /* 오른쪽에서 10px 떨어짐 */
+}
+
+#sendButton:disabled {
+  background-color: #ddd;
+}
+
+/* 반응형 디자인 */
 @media screen and (max-width: 768px) {
-  .container {
-    flex-direction: column;
+  /* 작은 화면 (예: 스마트폰) */
+  .sidebar {
+    width: 60px; /* 사이드바 너비 축소 */
   }
-  .chat-history {
-    width: 100%;
+
+  .main-container {
+    padding: 10px; /* 메인 컨테이너 여백 축소 */
   }
+
   .chat-container {
-    width: 100%;
+    width: 100%; /* 채팅 컨테이너 너비 100% */
+    height: 450px; /* 높이 축소 */
+  }
+
+  textarea {
+    font-size: 14px; /* 텍스트 영역 글꼴 크기 축소 */
+  }
+
+  button {
+    padding: 8px 16px; /* 버튼 크기 축소 */
+  }
+
+  #chatEmojisDisplay {
+    font-size: 16px; /* 이모지 크기 축소 */
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+  /* 중간 화면 (예: 태블릿, 중형 노트북) */
+  .sidebar {
+    width: 70px; /* 사이드바 너비 조정 */
+  }
+
+  .chat-container {
+    height: 500px; /* 채팅 컨테이너 높이 조정 */
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  /* 큰 화면 (예: 데스크탑) */
+  .sidebar {
+    width: 80px; /* 사이드바 너비 확대 */
+  }
+
+  .chat-container {
+    max-width: 1200px; /* 채팅 컨테이너 최대 너비 설정 */
   }
 }

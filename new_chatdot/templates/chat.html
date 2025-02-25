@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+  
+  <div class="sidebar">
+    <h2>あし助</h2>
+    <ul>
+      <li id="home"><a href="/">🏠</a></li>
+      <li id="quiz"><a href="/quiz">📝</a></li>
+      <li id="vocab"><a href="/vocab">📖</a></li>
+    </ul>
+  </div>
+
+  <div class="main-container">
+    <div id="chatEmojisDisplay">{{ chat_count_emojis }}</div>
+    <!-- 채팅 영역 -->
+    <div class="chat-container">
+      <div class="chat-box" id="chatBox">
+        <!-- 채팅 메시지들이 이곳에 추가됩니다 -->
+      </div>
+      <div class="input-container">
+        <textarea id="userInput" placeholder="메시지를 입력하세요..."></textarea>
+        <button id="sendButton" onclick="sendMessage()">送信</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- 달력 영역 -->
+    <!-- <div class="calendar-container">
+  <div class="calendar-header">
+      {{ current_date }} current_date를 템플릿에 전달된 값으로 표시 
+  </div>
+  <div class="calendar-grid">
+     요일 헤더 
+      <div class="calendar-day-header">일</div>
+      <div class="calendar-day-header">월</div>
+      <div class="calendar-day-header">화</div>
+      <div class="calendar-day-header">수</div>
+      <div class="calendar-day-header">목</div>
+      <div class="calendar-day-header">금</div>
+      <div class="calendar-day-header">토</div>
+
+     날짜 표시 
+      {% for day in days %}
+          <div class="calendar-day">
+              {% if day %}
+                  {{ day }}
+              {% else %}
+                  &nbsp;빈 공간 표시 
+              {% endif %}
+          </div>
+      {% endfor %}
+  </div>
+</div> -->
+
+    <!-- 남은 채팅 횟수에 따라 다르게 표시 -->
+    <!-- <p id="remainingChats">
+        {% if is_checked %}
+            오늘의 채팅 횟수를 완료하셨습니다!
+        {% else %}
+            남은 채팅 횟수: {{ remaining_chats }}회
+        {% endif %}
+    </p> -->
+
+<!-- <div id="quizButton" {% if is_checked %} style="display: block;" {% else %} style="display: none;" {% endif %}>
+  <p id="remainingChats">
+    남은 채팅 횟수: <span id="chatEmojis">🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸</span>
+  </p>
+</div> -->
+
+  </div>
+
+  <script src="../static/script.js"></script>
+</body>
+</html>
