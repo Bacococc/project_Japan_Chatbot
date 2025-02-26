@@ -34,7 +34,7 @@ def send_request_with_retry(request_function, retries=3, delay=5):
                 raise
 
 # OpenAI 응답 함수 (대화 기록을 기반으로 응답 생성)
-def get_openai_response(conversation_history, use_dummy=True):
+def get_openai_response(conversation_history, use_dummy=False):
     if use_dummy:
         # 더미 텍스트 반환
         return "これはダミーの応答です。実際のAI応答の代わりに使用されています。😊"
