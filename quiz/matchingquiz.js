@@ -51,125 +51,123 @@ const words = [
     { word: "結婚する", meaning: "결혼하다" }
 ]
 
-let initialQuestions = [...words];  // 전체 문제 목록
-let currentQuestions = [];  // 선택된 4개의 문제
-let count = 0;  // 맞춘 문제 수
+let allQuestions = [...words];  //전체 문제 목록
+let currentQuestions = [];  //선택된 4개 문제
+let count = 0;  //맞춘 문제 수
 
-// 문제를 로딩하는 함수
-function loadQuestion() {
-    // 처음에 문제 4개를 로드
+//문제 로딩
+function matchingQuiz() {
     if (currentQuestions.length === 0) {
-        currentQuestions = getRandomQuestions(4);  // 문제 4개를 선택
+        currentQuestions = random(6); 
     }
 
-    // 문제의 순서는 섞고, 단어와 뜻을 각각 섞기
-    const shuffledWords = [...currentQuestions];  // 문제 순서는 그대로
-    const shuffledMeanings = shuffleArray(currentQuestions.map(item => item.meaning));  // 뜻만 섞기
+    const shuffledWords = [...currentQuestions]; 
+    const shuffledMeanings = shuffle(currentQuestions.map(item => item.meaning)); 
 
     const word = document.getElementById("word");
     const meaning = document.getElementById("meaning");
 
-    word.innerHTML = ""; // 기존 단어 버튼 초기화
-    meaning.innerHTML = ""; // 기존 뜻 버튼 초기화
+    word.innerHTML = ""; //단어 버튼 초기화
+    meaning.innerHTML = ""; //뜻 버튼 초기화
 
-    // 단어를 선택지로 만들어 버튼을 추가
+    //단어 선택지 추가
     shuffledWords.forEach(item => {
         const button = document.createElement("button");
         button.innerText = item.word;
-        button.onclick = () => selectWord(item); // 단어 선택
+        button.onclick = () => chooseWord(item); //단어 선택
         word.appendChild(button);
     });
 
-    // 뜻을 선택지로 만들어 버튼을 추가
+    //뜻 선택지 추가
     shuffledMeanings.forEach(item => {
         const button = document.createElement("button");
         button.innerText = item;
-        button.onclick = () => selectMeaning(item); // 뜻 선택
+        button.onclick = () => chooseMeaning(item); //뜻 선택
         meaning.appendChild(button);
     });
 
-    // "퀴즈 종료" 메시지 없애기
     document.getElementById("result").innerText = ""; 
 }
 
-// 4개의 무작위 문제를 선택하는 함수
-function getRandomQuestions(count) {
-    // 무작위로 문제를 선택 (이미 선택된 문제 제외)
-    const shuffledQuestions = shuffleArray([...initialQuestions]);
-    return shuffledQuestions.slice(0, count);  // 4개 문제 선택
+//랜덤으로 문제 선택
+function random(count) {
+    const shuffled = shuffle([...allQuestions]);
+    return shuffled.slice(0, count); 
 }
 
-// 단어를 선택한 경우
-function selectWord(word) {
+let selectedWord = null;
+let selectedMeaning = null;
+
+//단어 선택
+function chooseWord(word) {
     selectedWord = word;
-    checkAnswer();  // 답을 확인
+    check();  //답 확인
 }
 
-// 뜻을 선택한 경우
-function selectMeaning(meaning) {
+//뜻 선택
+function chooseMeaning(meaning) {
     selectedMeaning = meaning;
-    checkAnswer();  // 답을 확인
+    check();  //답 확인
 }
 
-// 선택된 단어와 뜻이 맞는지 확인
-function checkAnswer() {
+//정답 확인
+function check() {
     const resultDiv = document.getElementById("result");
 
     if (selectedWord && selectedMeaning) {
-        // 정답을 비교: 단어와 뜻이 일치하는지 확인
-        const correctItem = currentQuestions.find(item => item.word === selectedWord.word && item.meaning === selectedMeaning);
+        const correct = currentQuestions.find(item => item.word === selectedWord.word && item.meaning === selectedMeaning);
 
-        if (correctItem) {
+        if (correct) {
             resultDiv.innerText = "정답입니다!";
-            count++;  // 맞춘 문제 수 증가
-            removeCorrectAnswer(correctItem);  // 맞춘 단어와 뜻을 화면에서 삭제
+            count++; 
+            remove(correct);  //정답 제거
         } else {
             resultDiv.innerText = "틀렸습니다. 다시 시도해 보세요!";
         }
     }
 }
 
-// 맞춘 단어와 뜻을 화면에서 삭제
-function removeCorrectAnswer(correctItem) {
-    // 남은 문제 목록에서 정답 제거
-    currentQuestions = currentQuestions.filter(item => item !== correctItem);
+//정답 제거
+function remove(correct) {
+    //문제 목록에서 정답 제거
+    currentQuestions = currentQuestions.filter(item => item !== correct);
 
-    // 선택된 단어와 뜻 초기화
+    //선택 초기화
     selectedWord = null;
     selectedMeaning = null;
 
-    // 만약 모든 문제가 풀렸다면 바로 퀴즈 종료
+    //모든 문제 풀이 종료
     if (currentQuestions.length === 0) {
         document.getElementById("result").innerText = "퀴즈 종료!";
         document.getElementById("word").innerHTML = "";
         document.getElementById("meaning").innerHTML = "";
 
-        // '다시 풀기' 버튼 추가 (문제를 다시 풀 수 있게)
+        //재시작 버튼 추가
         const retryButton = document.createElement("button");
         retryButton.innerText = "다시 풀기";
-        retryButton.onclick = resetQuiz;
+        retryButton.onclick = reset;
         document.getElementById("result").appendChild(retryButton);
     } else {
-        // 새로운 문제 로딩
-        loadQuestion();
+        //새로운 문제 로딩
+        matchingQuiz();
     }
 }
 
-// 퀴즈를 초기화하는 함수 (다시 풀기 버튼을 눌렀을 때)
-function resetQuiz() {
-    // 초기화
+//퀴즈 초기화
+function reset() {
     currentQuestions = [];
     count = 0;
-    loadQuestion();  // 문제를 다시 로드
+    matchingQuiz();  //새 문제 로딩
 }
 
-// 배열을 랜덤하게 섞는 함수
-function shuffleArray(arr) {
+//배열 랜덤 섞기
+function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
 }
 
-// 처음 문제 로딩
-loadQuestion();
+//첫 문제
+matchingQuiz();
+
 
 
 
