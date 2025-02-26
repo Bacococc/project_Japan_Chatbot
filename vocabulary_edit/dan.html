@@ -8,37 +8,46 @@
     <script src="dan.js"></script>
   </head>
   <body>
-    <h1>일본어 단어장</h1>
-    <!-- 단어 추가 폼 -->
-    <form onsubmit="addWord(event)">
-      <input type="text" id="kanji" placeholder="한자" required oninput="convertKanji()" />
-      <input type="text" id="hiragana" placeholder="히라가나" required />
-      <input type="text" id="meaning" placeholder="뜻" required />
-      <input type="submit" value="추가" />
-    </form>
-    <!-- 검색 및 초기화 버튼 -->
-    <div id="searchWord">
-      <input
-        type="text"
-        id="search"
-        placeholder="검색"
-        oninput="searchWord()"
-      />
-      <button id="clear-button" onclick="clearWords()">초기화</button> <!-- 초기화 버튼 -->
+    <div class="container">
+      <h1>アシスケの単語帳</h1>
+      <!-- 단어 추가 폼 -->
+      <form onsubmit="addWord(event)">
+        <input type="text" id="kanji" placeholder="한자" required oninput="convertKanji()" />
+        <input type="text" id="hiragana" placeholder="히라가나" required />
+        <input type="text" id="meaning" placeholder="뜻" required />
+        <input type="submit" value="추가" />
+      </form>
+
+      <!-- 검색 및 초기화 버튼 -->
+      <div id="searchWord">
+        <input
+          type="text"
+          id="search"
+          placeholder="검색"
+          oninput="searchWord()"
+        />
+        <button id="clear-button" onclick="clearWords()">초기화</button> <!-- 초기화 버튼 -->
+      </div>
+
+      <!-- 단어 목록 테이블 -->
+      <table>
+        <thead>
+          <tr>
+            <th>漢字</th>
+            <th>ひらがな</th>
+            <th>意味</th>
+            <th>✔️</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 단어 목록이 여기에 추가 -->
+        </tbody>
+      </table>
     </div>
-    <!-- 단어 목록 테이블 -->
-    <table>
-      <thead>
-        <tr>
-          <th>한자</th>
-          <th>히라가나</th>
-          <th>뜻</th>
-          <th>✔️</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 단어 목록이 여기에 추가 -->
-      </tbody>
-    </table>
+
+    <footer>
+      Copyright ⓒ 2025 Team Asisuke. All rights reserved.
+    </footer>
   </body>
 </html>
