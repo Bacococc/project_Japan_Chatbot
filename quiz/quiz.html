@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 선택</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+
+<body>
+
+    <body class="q3">
+        <div class="box">
+            <div class="button-container">
+                <button onclick="meaningQuiz()" class="quiz-btn">뜻 퀴즈</button>
+                <button onclick="matchingQuiz()" class="quiz-btn">연결 퀴즈</button>
+            </div>
+            <div class="button-container">
+                <button id="prevBtn" class="nav-btn">◁</button> 
+                <div id="card" class="card"></div>
+                <button id="nextBtn" class="nav-btn">▷</button>
+            </div>
+            <hr>
+            <div id="wordList" class="word-list">
+            </div>
+        </div>
+        <footer>Copyright ⓒ 2025 Team Asisuke. All rights reserved.</footer>
+    </body>
+    <script src="quiz.js"></script>
+</body>
+
+</html>
