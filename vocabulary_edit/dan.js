@@ -156,8 +156,15 @@ function toggleLearned(checkbox) {
     const hiragana = row.cells[1].textContent;
     const meaning = row.cells[2].textContent;
     const isLearned = checkbox.checked;
+    const tableBody = document.querySelector("tbody");
 
     updateWordInLocalStorage(kanji, hiragana, meaning, isLearned);
+
+    if (isLearned) {
+        setTimeout(() => {
+            tableBody.appendChild(row); // 목록의 아래로 이동
+        }, 200); // 0.2초 후 이동
+    }
 }
 
 // 단어 목록을 초기화하는 함수
