@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# 📝 아시스케(アシ助) - 일본어 대화 연습 챗봇 + 퀴즈, 단어장
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 프로젝트 소개
+아시스케(アシ助)는 JLPT N3 수준의 일본어 학습자를 위한 회화 연습 챗봇입니다.  
+일본어를 공부하는 많은 학습자들이 회화 연습 기회가 부족하다는 공통된 어려움을 겪고 있습니다. 교재나 문법 학습만으로는 실제 대화 능력을 키우기 어렵고, 원어민과 직접 대화할 기회도 많지 않습니다. 특히 혼자 공부하는 학습자들은 자연스럽게 일본어로 대화를 나눌 수 있는 환경을 찾기 힘듭니다.
 
-## Available Scripts
+이러한 문제를 해결하기 위해, 언제 어디서든 부담 없이 일본어 회화를 연습할 수 있는 AI 챗봇을 개발하게 되었습니다. 사용자가 실제 일본어 대화처럼 연습할 수 있도록 챗봇이 대화를 이끌어주고, 적절한 피드백과 추가 질문을 제공하여 지속적인 연습이 가능하도록 설계되었습니다.
 
-In the project directory, you can run:
+이를 통해 더 많은 사람들이 일본어 회화 실력을 자연스럽게 향상시키고, 보다 자신감 있게 일본어를 사용할 수 있도록 돕는 것이 프로젝트의 목표입니다. 🚀
+OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하고 새로운 질문을 생성할 수 있습니다.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 주요 기능
+- 일본어 챗봇과 대화 (JLPT N3 수준)
+- 사용자의 답변에 따라 자연스러운 질문 생성
+- 간단한 REST API (`Flask` 사용)
+- Swagger UI 문서화 (`http://localhost:5002/apidocs/`)
+- N3 레벨의 단어 퀴즈로 어휘 학습
+- 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📂 프로젝트 구조
+├── app.py                 # Flask 서버의 엔트리 포인트
+├── requirements.txt       # 프로젝트에 필요한 Python 패키지 목록
+├── .env                   # 환경 변수 파일 (API 키 등)
+├── services               # OpenAI API와의 통신을 처리하는 서비스 모듈
+│   └── openai_service.py  # OpenAI API 호출 및 응답 처리
+├── routes
+|   └── chat.py            # Flask 애플리케이션의 Blueprint를 사용하여 대화 API 정의
+├── config
+|   └── config.py          # 환경 변수 로드
+├── static                 # 정적 파일 (CSS, JS, 이미지 등)
+│   └── style.css          # 기본 스타일 파일
+│   └── script.js          # 클라이언트 사이드 JavaScript 코드
+|   └── index.html         # 메인 페이지 HTML 파일
+└── README.md              # 프로젝트 설명 및 사용법
 
-### `npm run build`
+## 🛠️ 기술 스택
+- 프론트엔드: HTML, CSS, JavaScript
+- 백엔드: Flask
+- API: OpenAI API
+- 문서화: Swagger UI
+- 기타: dotenv, CORS, Python (Flask), Fetch API, etc.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 
