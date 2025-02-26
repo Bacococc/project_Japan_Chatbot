@@ -2,10 +2,14 @@ from flask import Flask, render_template, jsonify, request, session, redirect, u
 from flask_cors import CORS
 from services.openai_service import get_openai_response
 from flask_apispec import FlaskApiSpec, MethodResource, doc
+from flask.views import MethodView  # 추가됨
 from datetime import datetime
 import os
 from dotenv import load_dotenv
 import logging
+from services.openai_service import get_openai_response  # Ensure import
+from flask import url_for
+
 
 # .env 파일에서 환경 변수 로드
 load_dotenv()
@@ -38,7 +42,7 @@ def index():
     if 'chat_count' not in session:
         session['chat_count'] = 0
 
-    if session['chat_count'] >= 10:
+    if session['chat_count'] >= 15:
         return render_template('mainpage.html', current_date=current_date, chat_limit_reached=True)
 
     return render_template('mainpage.html', current_date=current_date)  
@@ -71,28 +75,33 @@ def update_chat_count():
     chat_data = get_chat_count_for_ip()
     chat_data["count"] += 1
 
-class ChatResource(MethodResource):
+class ChatResource(MethodResource, MethodView):
     @doc(description="Chat with the AI bot")
     def post(self):
         if not request.is_json:
             return jsonify({"error": "Content-Type must be application/json"}), 400
-        
+
         try:
             reset_chat_count()
             chat_data = get_chat_count_for_ip()
 
-            if chat_data["count"] >= 10:
+            if chat_data["count"] >= 15:
                 return jsonify({
                     "response": "오늘의 채팅량을 달성하셨습니다! 왼쪽의 퀴즈 버튼을 눌러 퀴즈를 풀어보세요!",
-                    "chat_count_emojis": "🌸🌸🌸🌸🌸🌸🌸🌸🌸💬"
+                    "chat_count_images": ["chat_complete.png"] * 15 + ["chat_count.png"]
                 }), 400
-            
+
             conversation_history = request.get_json().get("messages", [])
+            bot_reply = get_openai_response(conversation_history, use_dummy=True)
+
+            if not conversation_history:
+                return jsonify({"error": "대화 내역이 없습니다."}), 400
 
             session_id = session.get('session_id')
             if not session_id:
-                session['session_id'] = os.urandom(24).hex()  
-                session_id = session['session_id']
+                session_id = os.urandom(24).hex()  
+                session['session_id'] = session_id
+
 
             if session_id not in conversation_db:
                 conversation_db[session_id] = {}
@@ -102,33 +111,48 @@ class ChatResource(MethodResource):
                 conversation_db[session_id][current_date] = []
 
             conversation_db[session_id][current_date].append({"role": "user", "content": conversation_history[-1]['content']})
-
-            response = get_openai_response(conversation_history)
-
-            # 응답이 문자열 또는 직렬화 가능한 객체인지 확인하고 직렬화 가능하도록 변환
-            conversation_db[session_id][current_date].append({"role": "assistant", "content": response})
+            conversation_db[session_id][current_date].append({"role": "assistant", "content": bot_reply})
 
             update_chat_count()
 
-            # 채팅 횟수를 이모지로 변환
+            # 🌸(chat_complete.png)와 💬(chat_count.png)를 이미지 URL 리스트로 변환
             chat_count = chat_data["count"]
-            emojis = "🌸" * (10 - chat_count) + "💬" * chat_count
+            chat_count_images = [
+                url_for('static', filename='img/chat_count.png')
+            ] * (15 - chat_count) + [
+                url_for('static', filename='img/chat_complete.png')
+            ] * chat_count
 
-            logger.info(f"Response from OpenAI: {response}")
-
-            # 응답 데이터를 직렬화하여 반환
             return jsonify({
-                "response": response, 
-                "history": [{"role": entry["role"], "content": entry["content"]} for entry in conversation_db[session_id][current_date]],  # 직렬화 가능한 데이터로만 변환
-                "chat_count_emojis": emojis
+                "response": bot_reply,
+                "history": [
+                    {"role": entry["role"], "content": entry["content"]}
+                    for entry in conversation_db[session_id][current_date]
+                ],
+                "chat_count_images": chat_count_images  # ✅ URL 형태로 반환
             })
 
         except Exception as e:
             logger.error(f"Error occurred: {str(e)}")
             return jsonify({"error": "Internal Server Error"}), 500
 
+
+@app.route('/chat/images', methods=['GET'])
+def get_chat_images():
+    chat_data = get_chat_count_for_ip()
+    chat_count = chat_data["count"]
+
+    chat_count_images = [
+        url_for('static', filename='img/chat_count.png')
+    ] * (15 - chat_count) + [
+        url_for('static', filename='img/chat_complete.png')
+    ] * chat_count
+
+    return jsonify({"chat_count_images": chat_count_images})
+
 # Flask-APISpec 등록
-app.add_url_rule('/chat', view_func=ChatResource.as_view('chatresource'))
+chat_view = ChatResource.as_view('chatresource')  # MethodView 적용
+app.add_url_rule('/chat', view_func=chat_view, methods=['POST'])
 docs.register(ChatResource)
 
 if __name__ == '__main__':

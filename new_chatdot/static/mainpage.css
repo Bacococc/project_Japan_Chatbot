@@ -1,55 +1,260 @@
+/* 기본 스타일 */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #ffd2e0, #ff9cb3); 
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 400vh;
 }
 
+/* 네비게이션 바 스타일 */
+.nav {
+    width: 100%;
+    height: 60px; /* 네비게이션 바의 높이를 적당히 설정 */
+    background-color: rgba(255, 255, 255, 0.265); /* 불투명 배경색 설정 (배경이 60% 불투명) */
+    position: fixed; /* 화면 상단에 고정 */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* 네비게이션 바가 다른 요소들 위에 표시되도록 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px; /* 왼쪽, 오른쪽 여백 */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 부드러운 그림자 효과 */
+}
+
+/* 네비게이션 텍스트 스타일 */
+.nav h2 {
+    font-size: 1rem;
+    color: #ff8cc4; /* 텍스트 색상 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* 소개 페이지 */
 #intro {
-    padding: 80px 20px;  /* 상단 여백을 줄여서 텍스트가 더 위로 오게 설정 */
+    margin-top: 80px; /* 네비게이션 바 아래에 내용이 겹치지 않도록 여백 추가 */
+    padding: 100px 20px;
     text-align: center;
-    min-height: 150vh;  /* 최소 높이를 화면 크기만큼 설정하여 중앙에 위치 */
+    min-height: 150vh;
     display: flex;
     flex-direction: column;
-    /* justify-content: center;  텍스트가 화면 중앙에 오도록 설정 */
-    align-items: center;  /* 텍스트가 화면 가로 중앙에 오도록 설정 */
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 1;
+    transition: opacity 1s ease;
 }
 
-h1, p {
+/* 제목 스타일 */
+h1 {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
     transition: opacity 1s ease, transform 1s ease;
-    margin: 20px 0;  /* 텍스트 간격을 적절히 설정 */
+    font-size: 6rem;
+    font-weight: 700;
+    margin-top: 25%;
+    margin-bottom: 30%;
+}
+
+/* 문장들 스타일 */
+p {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8); /* 처음엔 작은 크기 */
+    transition: opacity 1s ease, transform 1s ease;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 20px 0;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+/* 각 번호별 스타일 */
+.p1 {
+    margin-top: 100px;
+}
+
+.p2 {
+    margin-top: 100px;
+}
+
+.p3 {
+    margin-top: 80px;
+}
+
+.p4 {
+    margin-bottom: 100px;
+}
+
+.p5 {
+    margin-top: 60px;
+}
+
+.p6 {
+    margin-bottom: 50px;
+}
+
+.p7 {
+    margin-top: 100px;
+}
+
+.p8 {
+    margin-bottom: 100px;
+}
+
+.p9 {
+    margin-bottom: 20px;
+}
+
+.p10 {
+    margin-top: 30px;
+    margin-bottom: 80px;
 }
 
 .fade-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1.2); /* 화면에 등장할 때 훨씬 크게 */
 }
 
+/* Intersection Observer로 적용될 CSS */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* 최종적으로 원래 크기로 돌아오기 */
+}
+
+#feature-boxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px; /* Ensure there is some padding if needed */
+  }
+  
+
+  .feature-box {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    position: relative; /* Add relative positioning */
+  }  
+
+  .feature-box-number {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: #FF6F91;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .feature-box p {
+    font-size: 2rem;
+    color: #373737;
+  }
+
+/* 'アシ助スタート' 버튼 스타일 */
 #startButtonContainer {
-    display: none;  /* 초기에는 버튼 숨기기 */
+    /* 항상 레이아웃에 남기기 위해 display: flex 사용 */
+    display: flex;  
     justify-content: center;
     align-items: center;
-    position: fixed;  /* 고정 위치로 설정하여 스크롤 후에도 위치 고정 */
+    position: fixed;  /* 스크롤해도 고정 */
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    
+    /* 처음엔 보이지 않도록 opacity 0, visibility hidden */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 0s linear 1s; 
+    z-index: 1000;
 }
 
+/* fade-in 클래스가 추가되면 보이도록 */
+#startButtonContainer.fade-in {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease, visibility 0s;
+}
+
+/* 'アシ助スタート' 버튼 내부 스타일 */
 #startButton {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4CAF50;
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    background-color: hsl(332, 100%, 70%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #startButton:hover {
-    background-color: #45a049;
+    background-color: #ff5bb5;
+    transform: translateY(-2px);
+}
+
+#startButton:active {
+    transform: translateY(2px);
+}
+
+#outro {
+    padding: 100px 20px;
+    text-align: center;
+    min-height: 150vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+footer {
+    position: relative;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #efefef;
+    margin-bottom: 20px;
+}
+
+/* 반응형 디자인 (스크린이 작을 때 모바일 대응) */
+@media screen and (max-width: 768px) {
+    #intro {
+        padding: 80px 10px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    #startButton {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
 }
