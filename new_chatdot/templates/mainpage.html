@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <link rel="stylesheet" href="../static/mainpage.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Kiwi+Maru:wght@300;400&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <div class="nav">
+    <h2>あし助</h2>
+    <ul>
+    </ul>
+  </div>
+
+  <!-- 소개 페이지 -->
+  <section id="intro">
+    <div class="intro-content">
+      <h1 class="title fade-in p1">ようこそ, <br>アシ助へ！</h1>
+      <p class="japanese fade-in p2">アシ助（あしすけ）は、JLPT N3レベルの日本語学習者向けのAIチャットボットです。</p>
+
+      <p class="korean fade-in p3">일본어를 공부하는 많은 학습자들이 회화 연습에 어려움을 겪고 있다는 사실을 알고 계셨나요? 교재나 문법만으로는 실제 대화 능력을 키우기 어렵고, 원어민과의 대화 기회는 한정적입니다. 특히 혼자 공부하는 학습자들은 자연스러운 대화 환경을 찾기 힘듭니다.</p>
+      <p class="japanese fade-in p4">日本語を勉強している多くの学習者が会話練習に困っていることをご存知ですか？教科書や文法だけでは、実際の会話力を身につけるのは難しく、ネイティブスピーカーとの会話の機会も限られています。特に独学で勉強している学習者は、自然な会話環境を見つけることができません。</p>
+
+      <p class="korean fade-in p5">이 문제를 해결하고자, 언제 어디서든 부담 없이 일본어 회화를 연습할 수 있는 AI 챗봇을 만들었습니다. 챗봇은 사용자가 실제 일본어 대화처럼 연습할 수 있도록 대화를 이끌어주며, 피드백과 추가 질문을 통해 지속적으로 연습을 유도합니다.</p>
+      <p class="japanese fade-in p6">この問題を解決するために、いつでもどこでも日本語の会話を練習できるAIチャットボットを作成しました。チャットボットは、ユーザーが実際の日本語の会話のように練習できるように会話をリードし、フィードバックや追加の質問を通じて継続的に練習を促します。</p>
+
+      <p class="korean fade-in p7">이렇게 실시간 대화를 통해 자연스럽게 일본어 실력을 향상시키고, 자신감 있게 일본어를 사용할 수 있도록 돕는 것이 바로 이 프로젝트의 목표입니다. 🚀</p>
+      <p class="japanese fade-in p8">このように、リアルタイムで会話を進めることで、日本語の実力を自然に向上させ、自信を持って日本語を使えるようにサポートすることが、このプロジェクトの目標です。🚀</p>
+
+      <p class="korean fade-in p9">지금, 아시스케를 사용해 보세요!</p>
+      <p class="japanese fade-in p10">今すぐアシ助（あしすけ）を使ってみみましょう！</p>
+    </div>
+  </section>
+
+  <section id="feature-boxes">
+    <div class="feature-box">
+      <span class="feature-box-number">1</span>
+      <h3>Chat-GPT 기반, 자연스러운 회화를 지원!</h3>
+      <p>최첨단 AI 기술인 Chat-GPT를 활용하여, 사용자가 일본어 회화를 자연스럽게 연습할 수 있도록 도와줍니다. 실제 대화처럼 AI와의 상호작용을 통해 실력을 쌓을 수 있습니다.</p>
+    </div>
+    <div class="feature-box">
+      <span class="feature-box-number">2</span>
+      <h3>회원가입 없이 간편한 사용</h3>
+      <p>복잡한 회원가입 절차 없이 세션 ID로 간편하게 사용할 수 있습니다. 또한, 사용자의 채팅 횟수와 단어장을 자동으로 쿠키에 저장하여, 다음에 방문해도 이전 기록을 그대로 사용할 수 있습니다.</p>
+    </div>
+    <div class="feature-box">
+      <span class="feature-box-number">3</span>
+      <h3>단어장 기능 제공</h3>
+      <p>대화 도중 모르는 단어를 단어장에 저장해 두고, 언제든지 복습할 수 있습니다. 새로운 단어를 학습하고 일본어 실력을 더욱 빠르게 향상시킬 수 있습니다.</p>
+    </div>
+    <div class="feature-box">
+      <span class="feature-box-number">4</span>
+      <h3>퀴즈 기능 제공</h3>
+      <p>하루 목표 채팅량을 달성한 후, 일본어 퀴즈를 통해 추가적인 학습이 가능합니다. 재미있고 도전적인 퀴즈로 학습의 효과를 극대화하세요!</p>
+    </div>    
+  </section>
+
+  <div class="outro">
+  </div>
+
+  <footer>
+    Copyright ⓒ 2025 Team Asisuke. All rights reserved.
+  </footer>
+
+  <!-- アシ助スタート 버튼 -->
+  <div id="startButtonContainer" class="hidden">
+    <button id="startButton">アシ助スタート</button>
+  </div>
+
+  <!-- JS 파일 로드 -->
+  <script src="../static/mainpage.js"></script>
+</body>
+</html>

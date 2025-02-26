@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단어 퀴즈</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+
+<body>
+
+    <div class="quiz">
+        <h2>단어 퀴즈</h2>
+        <p id="question">단어를 고르세요:</p>
+        <div class="answer">
+            <button class="quiz-button" id="answer1" onclick="checkAnswer(1)"></button>
+            <button class="quiz-button" id="answer2" onclick="checkAnswer(2)"></button>
+            <button class="quiz-button" id="answer3" onclick="checkAnswer(3)"></button>
+            <button class="quiz-button" id="answer4" onclick="checkAnswer(4)"></button>
+
+        </div>
+        <p id="result"></p>
+        
+    </div>
+    <footer>Copyright ⓒ 2025 Team Asisuke. All rights reserved.</footer>
+    <script src="meaningquiz.js"></script>
+</body>
+
+</html>

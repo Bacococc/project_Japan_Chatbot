@@ -1,0 +1,219 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background: #FDE9E8; 
+}
+
+.quiz, .box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content: center;
+    width: 700px;
+    background: #FFF0F3;
+    margin: 20px;
+}
+
+.q button {
+    background-color: #94D655; 
+    border: none;
+    padding: 15px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 8px; 
+    font-size: 16px;
+    width: 160px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.q button:hover {
+    background-color: #8ccb50;
+    transform: scale(1.05);
+}
+
+.q button:active {
+    background-color: #8ccb50; 
+}
+
+.quiz-button {
+    background-color: #94D655;
+    color: white;
+    border: none;
+    padding: 16px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 400px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.quiz-button:hover {
+    background-color: #8ccb50;
+    transform: scale(1.05);
+}
+.quiz-button:active {
+    background-color: #8ccb50; 
+}
+
+
+.answer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #94D655;
+    color: white;
+    border: none;
+    padding: 12px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 160px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+hr {
+    border: 0;
+    border-top: 2px solid #F79EBA;
+    width: 70%;    
+    margin: 30px auto;  
+}
+
+
+.quiz-btn {
+    padding: 18px 35px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    background-color: #94D655;
+    border-radius: 90px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+    font-weight: bold;
+}
+
+.quiz-btn:hover {
+    color: #ffffff; 
+    background-color: #8ccb50;
+    transform: scale(1.05);
+}
+
+.nav-btn {
+    font-size: 30px; 
+    cursor: pointer;
+    margin: 10px;
+    background: none;
+    border: none;
+    color: #94D655; 
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.nav-btn:hover { 
+    color: #8ccb50;  
+    transform: scale(1.2);  
+}
+
+.nav-btn:focus {
+    outline: none;  
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.card {
+    width: 750px;
+    height: 300px;
+    margin: 0 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #F79EBA;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.word-list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    font-size: 20px;
+}
+
+.word-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+    border: 1px solid #F79EBA;
+    background-color: #ffffff;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: left;
+    width: 500px;
+    box-sizing: border-box;
+    font-weight: lighter;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.word-meaning {
+    margin-left: auto;
+}
+
+.word-item .word {
+    text-align: left;
+}
+
+.word-item .definition {
+    text-align: right;
+}
+
+footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #9f9f9f;
+} 
