@@ -1,0 +1,197 @@
+/* 전체 배경 색상 및 폰트 설정 */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #fde9e8;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+}
+h1 {
+    color: #464646;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    text-align: center;
+    margin-top: 50px;
+    padding: 23px;
+    background: #fff6f7;
+    border-radius: 10px;
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+/* 테이블 스타일 */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: #fff5f7; /* 테이블 배경색 변경 */
+    animation: slideUp 0.6s ease-in-out; /* 슬라이드 애니메이션 추가 */
+    transition: transform 0.3s ease-in-out;
+}
+
+table:hover {
+    transform: scale(1.01);
+}
+
+/* 테이블 헤더 및 셀 스타일 */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+th {
+    background: #f48fb1;
+    color: white;
+}
+
+/* 폼 스타일 */
+form {
+    display: flex;
+    flex-wrap: wrap;  /* 입력창 줄바꿈 가능하도록 설정 */
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+}
+
+/* 입력 스타일 */
+input[type="text"] {
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #f48fb1; /* 테두리 색상 변경 */
+    font-size: 16px;
+    background: rgb(255, 231, 240); /* 입력 박스 배경색 변경 */
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #f48fb1; /* 포커스 테두리 색상 */
+    box-shadow: 0 0 8px rgba(240, 98, 146, 0.5); /* 포커스 시 그림자 */
+}
+
+/* 추가 버튼 스타일 */
+input[type="submit"] {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #a5e45b;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #f48fb1, #dd5f89);
+    transform: scale(1.05);
+}
+
+input[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+/* 수정 버튼 스타일 */
+.edit-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background: #a5e45b;
+    color: white;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+.edit-btn:hover {
+    background: #94d649;
+}
+
+/* 검색 및 초기화 버튼 스타일 */
+#searchWord {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 320px;
+}
+
+#search {
+    flex-grow: 1;
+    width: 150px;
+}
+
+#clear-button {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #a5e45b;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+#clear-button:hover {
+    background: linear-gradient(135deg, #f48fb1, #dd5f89);
+    transform: scale(1.05);
+}
+
+#clear-button:active {
+    transform: scale(0.95);
+}
+
+/* 페이드 인 및 슬라이드 업 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    form {
+        flex-direction: column;
+    }
+}
+
+/* 테이블 셀 너비 조정 */
+td:nth-child(2) {
+    width: 150px;
+}
+
+td:nth-child(3) {
+    width: 150px;
+    text-align: center;
+}
+
+td:nth-child(4) {
+    width: 70px;
+    text-align: center;
+    padding: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #9f9f9f;
+}

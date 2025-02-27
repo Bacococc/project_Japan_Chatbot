@@ -1,167 +1,141 @@
-// 페이지가 로드될 때 단어 목록을 불러옵니다.
-document.addEventListener('DOMContentLoaded', loadWords);
+document.addEventListener('DOMContentLoaded', loadWordsFromLocalStorage);
 
-// 한자를 변환하는 함수
-function convertKanji() {
-  const kanji = document.getElementById("kanji").value;
-  if (kanji) {
-    fetch('/convert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ kanji: kanji })
-    })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("meaning").value = data.meaning;
-      document.getElementById("hiragana").value = data.hiragana;
-    })
-    .catch(error => console.error('Error:', error));
-  }
-}
-
-// 단어를 추가하는 함수
+// 단어 추가
 function addWord(event) {
     event.preventDefault();
-    const kanji = document.getElementById('kanji').value;
-    const hiragana = document.getElementById('hiragana').value;
-    const meaning = document.getElementById('meaning').value;
-    const table = document.querySelector('tbody');
-    const newRow = table.insertRow();
-    const kanjiCell = newRow.insertCell(0);
-    const hiraganaCell = newRow.insertCell(1);
-    const meaningCell = newRow.insertCell(2);
-    const checkCell = newRow.insertCell(3);
-    const actionCell = newRow.insertCell(4);
-    kanjiCell.textContent = kanji;
-    hiraganaCell.textContent = hiragana;
-    meaningCell.textContent = meaning;
-    checkCell.innerHTML = '<input type="checkbox" onclick="toggleLearned(this)">';
-    actionCell.innerHTML = '<button class="edit-btn" onclick="editWord(this)">수정</button>';
+    const kanji = document.getElementById('kanji').value.trim();
+    const hiragana = document.getElementById('hiragana').value.trim();
+    const meaning = document.getElementById('meaning').value.trim();
+
+    if (!kanji || !hiragana || !meaning) return alert("모든 필드를 입력하세요.");
+
+    addRowToTable({ kanji, hiragana, meaning, isLearned: false });
+    saveWordsToLocalStorage();
+
+    // 입력 필드 초기화
     document.getElementById('kanji').value = '';
     document.getElementById('hiragana').value = '';
     document.getElementById('meaning').value = '';
-
-    saveWordToLocalStorage(kanji, hiragana, meaning, false);
 }
 
-// 단어를 검색하는 함수
+// 테이블에 행 추가
+function addRowToTable(word) {
+    const table = document.querySelector('tbody');
+    const newRow = table.insertRow();
+
+    newRow.innerHTML = `
+        <td class="kanji">${word.kanji}</td>
+        <td class="hiragana">${word.hiragana}</td>
+        <td class="meaning">${word.meaning}</td>
+        <td><input type="checkbox" ${word.isLearned ? 'checked' : ''} onchange="toggleLearned(this)"></td>
+        <td><button onclick="editWord(this.parentElement.parentElement)">수정</button></td>
+    `;
+}
+
+// 단어 검색
 function searchWord() {
     const searchInput = document.getElementById('search').value.toLowerCase();
-    const table = document.querySelector('tbody');
-    const rows = table.getElementsByTagName('tr');
+    const rows = document.querySelectorAll('tbody tr');
 
-    for (let i = 0; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const kanji = cells[0].textContent.toLowerCase();
-        const hiragana = cells[1].textContent.toLowerCase();
-        const meaning = cells[2].textContent.toLowerCase();
-
-        if (kanji.includes(searchInput) || hiragana.includes(searchInput) || meaning.includes(searchInput)) {
-            rows[i].style.display = '';
-        } else {
-            rows[i].style.display = 'none';
-        }
-    }
-}
-
-// 단어를 수정하는 함수
-function editWord(button) {
-    const row = button.parentNode.parentNode;
-    const kanjiCell = row.cells[0];
-    const hiraganaCell = row.cells[1];
-    const meaningCell = row.cells[2];
-    const actionCell = row.cells[4];
-
-    const kanji = kanjiCell.textContent;
-    const hiragana = hiraganaCell.textContent;
-    const meaning = meaningCell.textContent;
-
-    kanjiCell.innerHTML = `<input type="text" value="${kanji}" id="edit-kanji">`;
-    hiraganaCell.innerHTML = `<input type="text" value="${hiragana}" id="edit-hiragana">`;
-    meaningCell.innerHTML = `<input type="text" value="${meaning}" id="edit-meaning">`;
-    actionCell.innerHTML = '<button onclick="saveWord(this)">저장</button>';
-}
-
-// 단어를 저장하는 함수
-function saveWord(button) {
-    const row = button.parentNode.parentNode;
-    const kanjiCell = row.cells[0];
-    const hiraganaCell = row.cells[1];
-    const meaningCell = row.cells[2];
-    const checkCell = row.cells[3];
-    const actionCell = row.cells[4];
-
-    const kanji = document.getElementById('edit-kanji').value;
-    const hiragana = document.getElementById('edit-hiragana').value;
-    const meaning = document.getElementById('edit-meaning').value;
-    const isLearned = checkCell.querySelector('input[type="checkbox"]').checked;
-
-    kanjiCell.textContent = kanji;
-    hiraganaCell.textContent = hiragana;
-    meaningCell.textContent = meaning;
-    checkCell.innerHTML = `<input type="checkbox" onclick="toggleLearned(this)" ${isLearned ? 'checked' : ''}>`;
-    actionCell.innerHTML = '<button class="edit-btn" onclick="editWord(this)">수정</button>';
-
-    updateWordInLocalStorage(kanji, hiragana, meaning, isLearned);
-}
-
-// 단어를 로컬 스토리지에 저장하는 함수
-function saveWordToLocalStorage(kanji, hiragana, meaning, isLearned) {
-    const words = JSON.parse(localStorage.getItem('words')) || [];
-    words.push({ kanji, hiragana, meaning, isLearned });
-    localStorage.setItem('words', JSON.stringify(words));
-}
-
-// 로컬 스토리지에서 단어를 업데이트하는 함수
-function updateWordInLocalStorage(kanji, hiragana, meaning, isLearned) {
-    const words = JSON.parse(localStorage.getItem('words')) || [];
-    const index = words.findIndex(word => word.kanji === kanji);
-    if (index !== -1) {
-        words[index].hiragana = hiragana;
-        words[index].meaning = meaning;
-        words[index].isLearned = isLearned;
-    } else {
-        words.push({ kanji, hiragana, meaning, isLearned });
-    }
-    localStorage.setItem('words', JSON.stringify(words));
-}
-
-// 로컬 스토리지에서 단어를 불러오는 함수
-function loadWords() {
-    const words = JSON.parse(localStorage.getItem('words')) || [];
-    const table = document.querySelector('tbody');
-    table.innerHTML = ''; // 기존 단어 목록 초기화
-
-    words.forEach(word => {
-        const newRow = table.insertRow();
-        const kanjiCell = newRow.insertCell(0);
-        const hiraganaCell = newRow.insertCell(1);
-        const meaningCell = newRow.insertCell(2);
-        const checkCell = newRow.insertCell(3);
-        const actionCell = newRow.insertCell(4);
-        kanjiCell.textContent = word.kanji;
-        hiraganaCell.textContent = word.hiragana;
-        meaningCell.textContent = word.meaning;
-        checkCell.innerHTML = `<input type="checkbox" onclick="toggleLearned(this)" ${word.isLearned ? 'checked' : ''}>`;
-        actionCell.innerHTML = '<button class="edit-btn" onclick="editWord(this)">수정</button>';
+    rows.forEach(row => {
+        const [kanjiCell, hiraganaCell, meaningCell] = row.cells;
+        const match = [kanjiCell.textContent, hiraganaCell.textContent, meaningCell.textContent]
+            .some(text => text.toLowerCase().includes(searchInput));
+        row.style.display = match ? '' : 'none';
     });
 }
 
-// 단어 외움 여부를 토글하는 함수
+// 단어 수정
+function editWord(row) {
+    const kanji = row.querySelector(".kanji").innerText;
+    const hiragana = row.querySelector(".hiragana").innerText;
+    const meaning = row.querySelector(".meaning").innerText;
+
+    row.innerHTML = `
+        <td><input type="text" value="${kanji}" class="edit-kanji" /></td>
+        <td><input type="text" value="${hiragana}" class="edit-hiragana" /></td>
+        <td><input type="text" value="${meaning}" class="edit-meaning" /></td>
+        <td><button onclick="saveWord(this)">저장</button></td>
+    `;
+
+    // 기존 입력 칸과 동일한 스타일 적용
+    const inputs = row.querySelectorAll("input");
+    inputs.forEach(input => {
+        input.style.padding = "8px"; // 패딩을 줄여서 크기를 조정
+        input.style.borderRadius = "5px";
+        input.style.border = "1px solid #bbb";
+        input.style.fontSize = "14px"; // 폰트 크기를 줄여서 크기를 조정
+        input.style.width = "80px"; // 입력 칸의 너비를 조정
+    });
+}
+
+// 단어 저장
+function saveWord(button) {
+    const row = button.parentElement.parentElement;
+    const kanji = row.querySelector(".edit-kanji").value;
+    const hiragana = row.querySelector(".edit-hiragana").value;
+    const meaning = row.querySelector(".edit-meaning").value;
+
+    if (!kanji || !hiragana || !meaning) return alert("모든 필드를 입력하세요.");
+
+    row.innerHTML = `
+        <td class="kanji">${kanji}</td>
+        <td class="hiragana">${hiragana}</td>
+        <td class="meaning">${meaning}</td>
+        <td><input type="checkbox" onchange="toggleLearned(this)"></td>
+        <td><button onclick="editWord(this.parentElement.parentElement)">수정</button></td>
+    `;
+
+    saveWordsToLocalStorage();
+}
+
+// 로컬 스토리지 저장
+function saveWordsToLocalStorage() {
+    const words = [];
+    const rows = document.querySelectorAll("table tbody tr");
+    rows.forEach(row => {
+        const kanji = row.querySelector(".kanji").innerText;
+        const hiragana = row.querySelector(".hiragana").innerText;
+        const meaning = row.querySelector(".meaning").innerText;
+        words.push({ kanji, hiragana, meaning });
+    });
+    localStorage.setItem('words', JSON.stringify(words));
+}
+
+// 로컬 스토리지 불러오기
+function loadWordsFromLocalStorage() {
+    const words = JSON.parse(localStorage.getItem('words')) || [];
+    const tbody = document.querySelector("table tbody");
+    words.forEach(word => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="kanji">${word.kanji}</td>
+            <td class="hiragana">${word.hiragana}</td>
+            <td class="meaning">${word.meaning}</td>
+            <td><input type="checkbox" ${word.isLearned ? 'checked' : ''} onchange="toggleLearned(this)"></td>
+            <td><button onclick="editWord(this.parentElement.parentElement)">수정</button></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// 외움 여부 토글
 function toggleLearned(checkbox) {
-    const row = checkbox.parentNode.parentNode;
-    const kanji = row.cells[0].textContent;
-    const hiragana = row.cells[1].textContent;
-    const meaning = row.cells[2].textContent;
-    const isLearned = checkbox.checked;
-
-    updateWordInLocalStorage(kanji, hiragana, meaning, isLearned);
+    const row = checkbox.closest('tr');
+    const [kanjiCell] = row.cells;
+    
+    updateWordInLocalStorage(kanjiCell.textContent, null, null);
 }
 
-// 단어 목록을 초기화하는 함수
 function clearWords() {
-    localStorage.removeItem('words');
-    loadWords();
+    if (confirm("정말로 초기화하시겠습니까?")) {
+        // 로컬 스토리지 초기화
+        localStorage.removeItem('words');
+        
+        // 단어 목록 초기화
+        const tbody = document.querySelector("table tbody");
+        tbody.innerHTML = "";
+    }
 }
+
+

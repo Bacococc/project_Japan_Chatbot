@@ -1,0 +1,254 @@
+/* * {
+  font-family: "Kiwi Maru", serif;
+  font-weight: 300;
+  font-style: normal;
+} */
+
+/* 기본 바디 스타일 */
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+  width: 80px; /* 사이드바 너비 */
+  height: 100vh; /* 전체 높이 */
+  background-color: #ffffff; /* 배경색 */
+  border-right: 1px solid rgba(0, 0, 0, 0.1);;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  justify-content: center; /* 세로 정렬 (중앙) */
+}
+
+/* 제목 스타일 */
+.sidebar h2 {
+  color: #000000;
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 80px;
+  font-weight: 400;
+}
+
+/* 사이드바 내 링크 목록 스타일 */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+  gap: 50px; /* 아이콘 사이 간격 */
+  height: 100%; /* ul의 높이를 100%로 설정하여 전체 공간 차지 */
+  width: 100%; /* ul의 너비를 100%로 설정 */
+  margin: 0; /* 기본 margin 제거 */
+}
+
+/* 각 리스트 항목 스타일 */
+.sidebar ul li {
+  text-align: center;
+}
+
+/* 링크 스타일 */
+.sidebar ul li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px; /* 원형 배경 크기 */
+  height: 50px;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.2s ease;
+  background-color: #f5f5f5; /* 기본 아이콘 배경색 */
+}
+
+/* 이미지 스타일 */
+.sidebar ul li a img {
+  width: 30px; /* 이미지 크기 */
+  height: 30px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* 링크 hover 시 효과 */
+.sidebar ul li a:hover {
+  background: #ff85b0; /* 부드러운 핑크색 배경 */
+  transform: scale(1.05); /* 약간 확대 */
+}
+
+/* 이미지 hover 시 효과 */
+.sidebar ul li a:hover img {
+  transform: scale(1.1); /* 아이콘 확대 */
+  opacity: 0.9;
+}
+
+/* ✨ 메인 컨테이너 */
+.main-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  margin-left: 80px;
+  width: calc(100% - 80px);
+  box-sizing: border-box;
+}
+
+/* 🎀 채팅 컨테이너 */
+.chat-container {
+  width: 100%;
+  max-width: 1000px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #eeeeee;
+  box-shadow: 0 4px 10px rgba(255, 105, 180, 0.1); 
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+  margin-top: 25px;
+}
+
+/* 💬 채팅 메시지 영역 */
+.chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🩷 사용자 메시지 */
+.user-message {
+  align-self: flex-end;
+  gap: 12px;
+
+}
+
+.user-message .message-text {
+  background-color: #FF69B4; 
+  color: white;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  max-width: 80%;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2); 
+}
+
+/* 💜 봇 메시지 */
+.bot-message {
+  align-self: flex-start;
+  gap: 12px;
+
+}
+
+.bot-message .message-text {
+  background-color: #a7d864; 
+  color: rgb(255, 255, 255);
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  max-width: 80%;
+  font-weight: 500;
+}
+
+/* 🎀 입력창 스타일 */
+.input-container {
+  display: flex;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+textarea {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  resize: none;
+  font-size: 14px;
+  background-color: #f3f3f3; 
+}
+
+/* 💕 버튼 스타일 */
+button {
+  padding: 12px 20px;
+  background: #FF69B4; 
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(255, 105, 180, 0.3);
+}
+
+button:hover {
+  background: rgb(175, 217, 115); 
+  transform: scale(1.05);
+}
+
+/* 💖 채팅 횟수 이모지 */
+#chatEmojisDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px;
+  position: absolute;
+  top: 15px;
+  right: 90px;
+}
+
+#chatEmojisDisplay img {
+  width: 20px;
+  height: 20px;
+}
+
+/* 채팅량 달성 메시지 스타일 */
+.completed-chat-message {
+  margin-top: 30px;
+  align-self: flex-start;
+  background-color: #a7d864; 
+  color: rgb(255, 255, 255);
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  max-width: 80%;
+  font-weight: 500;
+}
+
+
+/* 버튼 비활성화 스타일 */
+#sendButton:disabled {
+  background-color: #F8D7FF; 
+}
+
+/* 💖 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .chat-container {
+    width: 100%;
+    height: 450px;
+  }
+
+  textarea {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 8px 16px;
+  }
+
+  .main-container {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+}
