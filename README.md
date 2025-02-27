@@ -14,10 +14,9 @@ OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하
 - 일본어 챗봇과 대화 (JLPT N3 수준)
 - 사용자의 답변에 따라 자연스러운 질문 생성
 - 간단한 REST API (`Flask` 사용)
-- Swagger UI 문서화 (`http://localhost:5002/apidocs/`)
-- N3 레벨의 단어 퀴즈로 어휘 학습
-- 
-
+- Swagger UI 문서화 (`수정 중`)
+- N3 레벨의 단어/문장 퀴즈로 추가적인 어휘 학습
+- 단어장 기능 제공
 
 
 ## 📂 프로젝트 구조
@@ -41,27 +40,31 @@ OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하
 📌 **정적 파일 (`static/`)**  
 - `img/` : 이미지 파일 저장 폴더  
 - **CSS 파일**  
-  - `danstyles.css` : Dan 페이지 스타일  
+  - `danstyles.css` : 단어장 페이지 스타일  
   - `mainpage.css` : 메인 페이지 스타일  
   - `quiz.css` : 퀴즈 페이지 스타일  
-  - `quizSen.css` : 문장 퀴즈 스타일  
-  - `styles.css` : 전체 스타일 정의  
-- **JavaScript 파일**  
-  - `dan.js` : Dan 페이지 관련 JS  
+  - `quizSen.css` : 문장 퀴즈 스타일
+  - `meaningquiz.css` : 뜻 퀴즈 스타일
+  - `matchigquiz.css` : 매칭 퀴즈 스타일
+  - `quiz.css` : 단어 퀴즈 관련 스타일
+  - `styles.css` : 채팅 스타일
+ 
+- **JavaScript 파일**
+  - `script.js` : 채팅창 관련 JS  
+  - `dan.js` : 단어장 페이지 관련 JS  
   - `mainpage.js` : 메인 페이지 관련 JS  
   - `matchingquiz.js` : 매칭 퀴즈 관련 JS  
-  - `meaningquiz.js` : 의미 퀴즈 관련 JS  
-  - `quiz.js` : 일반 퀴즈 관련 JS  
+  - `meaningquiz.js` : 뜻 퀴즈 관련 JS  
+  - `quiz.js` : 단어 퀴즈 관련 JS  
   - `quizSen.js` : 문장 퀴즈 관련 JS  
-  - `script.js` : 공통 기능을 포함한 JS  
 
 📌 **템플릿 (HTML 파일, `templates/`)**  
 - `chat.html` : 채팅 페이지  
-- `dan.html` : Dan 페이지  
+- `dan.html` : 단어장 페이지  
 - `mainpage.html` : 메인 페이지  
 - `matchingquiz.html` : 매칭 퀴즈 페이지  
-- `meaningquiz.html` : 의미 퀴즈 페이지  
-- `quiz.html` : 일반 퀴즈 페이지  
+- `meaningquiz.html` : 뜻 퀴즈 페이지  
+- `quiz.html` : 퀴즈 페이지  
 - `quizSen.html` : 문장 퀴즈 페이지  
 
 📌 **기타**  
