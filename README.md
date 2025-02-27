@@ -21,20 +21,51 @@ OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하
 
 
 ## 📂 프로젝트 구조
-├── app.py                 # Flask 서버의 엔트리 포인트
-├── requirements.txt       # 프로젝트에 필요한 Python 패키지 목록
-├── .env                   # 환경 변수 파일 (API 키 등)
-├── services               # OpenAI API와의 통신을 처리하는 서비스 모듈
-│   └── openai_service.py  # OpenAI API 호출 및 응답 처리
-├── routes
-|   └── chat.py            # Flask 애플리케이션의 Blueprint를 사용하여 대화 API 정의
-├── config
-|   └── config.py          # 환경 변수 로드
-├── static                 # 정적 파일 (CSS, JS, 이미지 등)
-│   └── style.css          # 기본 스타일 파일
-│   └── script.js          # 클라이언트 사이드 JavaScript 코드
-|   └── index.html         # 메인 페이지 HTML 파일
-└── README.md              # 프로젝트 설명 및 사용법
+
+📌 **Flask 서버의 엔트리 포인트**  
+- `app.py` : Flask 애플리케이션의 진입점
+
+📌 **환경 설정 파일**  
+- `.env` : 환경 변수 파일 (API 키 등)  
+- `requirements.txt` : 프로젝트에 필요한 Python 패키지 목록  
+
+📌 **서비스 모듈 (API 호출 처리)**  
+- `services/openai_service.py` : OpenAI API와의 통신을 담당
+
+📌 **라우트 모듈 (API 엔드포인트 정의)**  
+- `routes/chat.py` : Flask의 Blueprint를 사용하여 대화 API 정의  
+
+📌 **설정 파일**  
+- `config/config.py` : 환경 변수 로드 및 설정  
+
+📌 **정적 파일 (`static/`)**  
+- `img/` : 이미지 파일 저장 폴더  
+- **CSS 파일**  
+  - `danstyles.css` : Dan 페이지 스타일  
+  - `mainpage.css` : 메인 페이지 스타일  
+  - `quiz.css` : 퀴즈 페이지 스타일  
+  - `quizSen.css` : 문장 퀴즈 스타일  
+  - `styles.css` : 전체 스타일 정의  
+- **JavaScript 파일**  
+  - `dan.js` : Dan 페이지 관련 JS  
+  - `mainpage.js` : 메인 페이지 관련 JS  
+  - `matchingquiz.js` : 매칭 퀴즈 관련 JS  
+  - `meaningquiz.js` : 의미 퀴즈 관련 JS  
+  - `quiz.js` : 일반 퀴즈 관련 JS  
+  - `quizSen.js` : 문장 퀴즈 관련 JS  
+  - `script.js` : 공통 기능을 포함한 JS  
+
+📌 **템플릿 (HTML 파일, `templates/`)**  
+- `chat.html` : 채팅 페이지  
+- `dan.html` : Dan 페이지  
+- `mainpage.html` : 메인 페이지  
+- `matchingquiz.html` : 매칭 퀴즈 페이지  
+- `meaningquiz.html` : 의미 퀴즈 페이지  
+- `quiz.html` : 일반 퀴즈 페이지  
+- `quizSen.html` : 문장 퀴즈 페이지  
+
+📌 **기타**  
+- `README.md` : 프로젝트 설명 및 사용법  
 
 ## 🛠️ 기술 스택
 - 프론트엔드: HTML, CSS, JavaScript
@@ -42,6 +73,3 @@ OpenAI의 API를 활용해 대화를 진행하며, 대화의 흐름을 유지하
 - API: OpenAI API
 - 문서화: Swagger UI
 - 기타: dotenv, CORS, Python (Flask), Fetch API, etc.
-
-
-## 
