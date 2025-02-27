@@ -124,7 +124,7 @@ function displayQuestion() {
 
 function checkAnswer(isCorrect, button) {
   if (isCorrect) {
-    button.style.backgroundColor = "#34C759";
+    button.style.backgroundColor = "#0da53b";
   } else {
     button.classList.add("incorrect");
     setTimeout(() => {
