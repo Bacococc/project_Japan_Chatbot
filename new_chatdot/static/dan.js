@@ -1,26 +1,6 @@
 // 페이지가 로드될 때 단어 목록을 불러옵니다.
 document.addEventListener('DOMContentLoaded', loadWords);
 
-// 한자를 변환하는 함수
-function convertKanji() {
-  const kanji = document.getElementById("kanji").value;
-  if (kanji) {
-    fetch('/convert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ kanji: kanji })
-    })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("meaning").value = data.meaning;
-      document.getElementById("hiragana").value = data.hiragana;
-    })
-    .catch(error => console.error('Error:', error));
-  }
-}
-
 // 단어를 추가하는 함수
 function addWord(event) {
     event.preventDefault();
