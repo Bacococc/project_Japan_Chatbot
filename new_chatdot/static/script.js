@@ -168,9 +168,9 @@ document.getElementById("userInput").addEventListener("keypress", function (even
 });
 
 function resetChat() {
-  localStorage.removeItem("conversationHistory"); // 대화 내역 초기화
-  localStorage.removeItem("chatCount"); // 채팅 횟수 초기화
-  document.getElementById("chatBox").innerHTML = ""; // 채팅창 초기화
-  document.getElementById("sendButton").disabled = false; // 전송 버튼 활성화
-  location.reload(); // 새로고침
-}
+    localStorage.removeItem("conversationHistory"); // 대화 내역 초기화
+    localStorage.removeItem("chatCount"); // 채팅 횟수 초기화
+    document.getElementById("chatBox").innerHTML = ""; // 채팅창 초기화
+    document.getElementById("sendButton").disabled = false; // 전송 버튼 활성화
+    location.reload(); // 새로고침
+  }

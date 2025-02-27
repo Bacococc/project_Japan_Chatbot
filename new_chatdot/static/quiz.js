@@ -131,10 +131,10 @@ generateWordList();
 
 //단어 뜻 퀴즈로 이동
 function meaningQuiz() {
-    window.location.href = "meaningquiz.html";
+    window.location.href = "../templates/meaningquiz.html";
 }
 
 //연결 퀴즈로 이동
 function matchingQuiz() {
-    window.location.href = "matchingquiz.html";
+    window.location.href = "../templats/matchingquiz.html";
 }

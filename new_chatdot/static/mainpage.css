@@ -21,6 +21,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px; /* 왼쪽, 오른쪽 여백 */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 부드러운 그림자 효과 */
 }
 
 /* 네비게이션 텍스트 스타일 */
@@ -32,17 +33,17 @@ body {
 
 /* 소개 페이지 */
 #intro {
-    margin-top: 270px; /* 네비게이션 바 아래에 내용이 겹치지 않도록 여백 추가 */
-    padding: 100px 0; /* 상하 패딩만 주고 좌우는 여백 없앰 */
+    margin-top: 80px; /* 네비게이션 바 아래에 내용이 겹치지 않도록 여백 추가 */
+    padding: 100px 20px;
     text-align: center;
     min-height: 150vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
     opacity: 1;
     transition: opacity 1s ease;
-    margin-bottom: 190px;
 }
 
 /* 제목 스타일 */
@@ -54,22 +55,6 @@ h1 {
     font-weight: 700;
     margin-top: 25%;
     margin-bottom: 30%;
-    color: white;
-}
-
-/* 중간 박스 */
-.box {
-    width: 100%;
-    max-width: 1000px; /* 최대 너비 100% */
-    background-color: white;
-    border-radius: 30px;
-    padding: 20px 100px;
-    box-sizing: border-box;
-    margin: 0;
-}
-
-hr {
-    margin-top: 80px;
 }
 
 /* 문장들 스타일 */
@@ -82,34 +67,61 @@ p {
     margin: 20px 0;
     max-width: 800px;
     padding: 0 20px;
-    color: black;
 }
 
 /* 각 번호별 스타일 */
-.p1 { margin-top: 100px; }
-.p2 { margin-top: 100px; }
-.p3 { margin-top: 80px; }
-.p4 { margin-bottom: 100px; }
-.p5 { margin-top: 60px; }
-.p6 { margin-bottom: 50px; }
-.p7 { margin-top: 100px; }
-.p8 { margin-bottom: 100px; }
-.p9 { margin-bottom: 20px; }
-.p10 { margin-top: 30px; margin-bottom: 80px; }
+.p1 {
+    margin-top: 100px;
+}
 
-/* Intersection Observer로 적용될 CSS */
+.p2 {
+    margin-top: 100px;
+}
+
+.p3 {
+    margin-top: 80px;
+}
+
+.p4 {
+    margin-bottom: 100px;
+}
+
+.p5 {
+    margin-top: 60px;
+}
+
+.p6 {
+    margin-bottom: 50px;
+}
+
+.p7 {
+    margin-top: 100px;
+}
+
+.p8 {
+    margin-bottom: 100px;
+}
+
+.p9 {
+    margin-bottom: 20px;
+}
+
+.p10 {
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+
 .fade-in {
     opacity: 1;
     transform: translateY(0) scale(1.2); /* 화면에 등장할 때 훨씬 크게 */
 }
 
-/* Intersection Observer로 추가된 클래스 */
+/* Intersection Observer로 적용될 CSS */
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0) scale(1); /* 최종적으로 원래 크기로 돌아오기 */
 }
 
-/* Feature boxes */
 #feature-boxes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -117,18 +129,19 @@ p {
     max-width: 1000px;
     margin: 20px auto;
     padding: 20px; /* Ensure there is some padding if needed */
-}
+  }
+  
 
-.feature-box {
+  .feature-box {
     background-color: #ffffff;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
     position: relative; /* Add relative positioning */
-}
+  }  
 
-.feature-box-number {
+  .feature-box-number {
     position: absolute;
     width: 30px;
     height: 30px;
@@ -142,18 +155,18 @@ p {
     padding: 10px;
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+  }
 
-.feature-box h3 {
+  .feature-box h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
     color: #333;
-}
+  }
 
-.feature-box p {
+  .feature-box p {
     font-size: 2rem;
     color: #373737;
-}
+  }
 
 /* 'アシ助スタート' 버튼 스타일 */
 #startButtonContainer {
@@ -202,7 +215,6 @@ p {
     transform: translateY(2px);
 }
 
-/* Outro */
 #outro {
     padding: 100px 20px;
     text-align: center;
@@ -235,7 +247,6 @@ footer {
 
     h1 {
         font-size: 2.5rem;
-        padding-top: 40vh;
     }
 
     p {
@@ -245,12 +256,5 @@ footer {
     #startButton {
         padding: 10px 20px;
         font-size: 1rem;
-    }
-
-    .box {
-        width: 100%;
-        max-width: 100%;
-        padding: 20px;
-        margin: 0;
     }
 }

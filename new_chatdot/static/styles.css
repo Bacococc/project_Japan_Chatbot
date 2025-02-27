@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #f9f9f9; /* 부드러운 회색 배경 */
+  background-color: #f9f9f9;
 }
 
 /* 사이드바 스타일 */
@@ -31,7 +31,7 @@ body {
 
 /* 제목 스타일 */
 .sidebar h2 {
-  color: #000000; /* 부드러운 분홍색 */
+  color: #000000;
   font-size: 20px;
   margin-top: 25px;
   margin-bottom: 80px;
@@ -61,8 +61,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px; /* 원형 배경 크기 */
-  height: 60px;
+  width: 50px; /* 원형 배경 크기 */
+  height: 50px;
   border-radius: 50%;
   transition: background 0.3s ease, transform 0.2s ease;
   background-color: #f5f5f5; /* 기본 아이콘 배경색 */
@@ -70,8 +70,8 @@ body {
 
 /* 이미지 스타일 */
 .sidebar ul li a img {
-  width: 35px; /* 이미지 크기 */
-  height: 35px;
+  width: 30px; /* 이미지 크기 */
+  height: 30px;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -108,7 +108,7 @@ body {
   background: white;
   border-radius: 12px;
   border: 2px solid #eeeeee;
-  box-shadow: 0 4px 10px rgba(255, 105, 180, 0.1); /* 부드러운 분홍색 그림자 */
+  box-shadow: 0 4px 10px rgba(255, 105, 180, 0.1); 
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -133,14 +133,14 @@ body {
 }
 
 .user-message .message-text {
-  background-color: #FF69B4; /* 부드러운 분홍색 */
+  background-color: #FF69B4; 
   color: white;
   padding: 12px 18px;
   border-radius: 20px;
   font-size: 16px;
   max-width: 80%;
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2); /* 분홍색 그림자 */
+  box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2); 
 }
 
 /* 💜 봇 메시지 */
@@ -174,19 +174,19 @@ textarea {
   border-radius: 10px;
   resize: none;
   font-size: 14px;
-  background-color: #f3f3f3; /* 연한 분홍색 배경 */
+  background-color: #f3f3f3; 
 }
 
 /* 💕 버튼 스타일 */
 button {
   padding: 12px 20px;
-  background: #FF69B4; /* 부드러운 핑크색 */
+  background: #FF69B4; 
   color: white;
   border: none;
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(255, 105, 180, 0.3); /* 부드러운 핑크색 그림자 */
+  box-shadow: 0 2px 5px rgba(255, 105, 180, 0.3);
 }
 
 button:hover {
@@ -229,7 +229,7 @@ button:hover {
 
 /* 버튼 비활성화 스타일 */
 #sendButton:disabled {
-  background-color: #F8D7FF; /* 부드러운 분홍색 비활성화 */
+  background-color: #F8D7FF; 
 }
 
 /* 💖 반응형 디자인 */
