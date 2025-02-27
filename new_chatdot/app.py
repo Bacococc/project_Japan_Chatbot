@@ -28,37 +28,30 @@ logger = logging.getLogger(__name__)
 app.config['APISPEC_SWAGGER_UI_URL'] = '/swagger/'
 docs = FlaskApiSpec(app)
 
-# 대화 기록 저장용 DB (세션별로 관리)
-conversation_db = {}
-
-# 현재 날짜 가져오기
 def get_today_date():
     return datetime.now().strftime("%Y-%m-%d")
 
-# IP 기반 채팅 횟수 확인
-def get_chat_count_for_ip():
-    ip_address = request.remote_addr
-    if ip_address not in conversation_db:
-        conversation_db[ip_address] = {"count": 0, "date": get_today_date()}
-    return conversation_db[ip_address]
+# 세션 기반 채팅 횟수 확인
+def get_chat_count_for_user():
+    if 'chat_count' not in session:
+        session['chat_count'] = 0
+        session['chat_date'] = get_today_date()  # 날짜도 같이 저장
+    return session['chat_count']
 
-# 채팅 횟수 초기화
+# 채팅 횟수 초기화 (날짜가 바뀌면 0으로 리셋)
 def reset_chat_count():
-    chat_data = get_chat_count_for_ip()
-    today_date = get_today_date()
-    if chat_data["date"] != today_date:
-        chat_data["count"] = 0
-        chat_data["date"] = today_date
+    if session.get('chat_date') != get_today_date():
+        session['chat_count'] = 0
+        session['chat_date'] = get_today_date()
 
 # 채팅 횟수 업데이트
 def update_chat_count():
-    chat_data = get_chat_count_for_ip()
-    chat_data["count"] += 1
+    session['chat_count'] = get_chat_count_for_user() + 1
 
 @app.route('/')
 def index():
     current_date = datetime.now().strftime("%Y年 %m月 %d日")
-    
+
     if 'chat_count' not in session:
         session['chat_count'] = 0
 
@@ -99,9 +92,8 @@ class ChatResource(MethodResource, MethodView):
 
         try:
             reset_chat_count()
-            chat_data = get_chat_count_for_ip()
 
-            if chat_data["count"] >= 10:
+            if get_chat_count_for_user() >= 10:
                 return jsonify({
                     "response": "오늘의 채팅량을 달성하셨습니다! 왼쪽의 퀴즈 버튼을 눌러 퀴즈를 풀어보세요!",
                     "chat_count_images": ["chat_complete.png"] * 10 + ["chat_count.png"]
@@ -111,32 +103,19 @@ class ChatResource(MethodResource, MethodView):
             if not conversation_history:
                 return jsonify({"error": "대화 내역이 없습니다."}), 400
 
-            # ✅ conversation_history가 정의된 후에 로깅
-            logger.info(f"Sent conversation history: {conversation_history}")
+            # ✅ 대화 기록을 세션에 저장
+            if 'conversation_history' not in session:
+                session['conversation_history'] = []
 
-            # OpenAI API 호출
             bot_reply = get_openai_response(conversation_history, use_dummy=False)
 
-            session_id = session.get('session_id')
-            if not session_id:
-                session_id = os.urandom(24).hex()
-                session['session_id'] = session_id
-
-            if session_id not in conversation_db:
-                conversation_db[session_id] = {}
-
-            current_date = get_today_date()
-            if current_date not in conversation_db[session_id]:
-                conversation_db[session_id][current_date] = []
-
-            # 대화 기록 저장
-            conversation_db[session_id][current_date].append({"role": "user", "content": conversation_history[-1]['content']})
-            conversation_db[session_id][current_date].append({"role": "assistant", "content": bot_reply})
+            session['conversation_history'].append({"role": "user", "content": conversation_history[-1]['content']})
+            session['conversation_history'].append({"role": "assistant", "content": bot_reply})
 
             update_chat_count()
 
             # 🌸(chat_complete.png)와 💬(chat_count.png)를 이미지 URL 리스트로 변환
-            chat_count = chat_data["count"]
+            chat_count = get_chat_count_for_user()
             chat_count_images = [
                 url_for('static', filename='img/chat_count.png')
             ] * (10 - chat_count) + [
@@ -144,8 +123,8 @@ class ChatResource(MethodResource, MethodView):
             ] * chat_count
 
             return jsonify({
-                "response": bot_reply,  # ✅ bot_reply를 한 번만 사용
-                "history": conversation_db[session_id][current_date],
+                "response": bot_reply,
+                "history": session['conversation_history'],
                 "chat_count_images": chat_count_images
             })
 
@@ -155,8 +134,7 @@ class ChatResource(MethodResource, MethodView):
 
 @app.route('/chat/images', methods=['GET'])
 def get_chat_images():
-    chat_data = get_chat_count_for_ip()
-    chat_count = chat_data["count"]
+    chat_count = get_chat_count_for_user()
 
     chat_count_images = [
         url_for('static', filename='img/chat_count.png')

@@ -16,7 +16,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Please check your .env file.")
 
-# OpenAI 클라이언트 생성 (v1.0.0 이후 방식)
+# OpenAI 클라이언트 생성 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 # 동기 재시도 로직
@@ -41,12 +41,12 @@ def get_openai_response(conversation_history, use_dummy=False):
     
     def request():
         try:
-            # OpenAI API 호출 (v1.0.0 방식)
+            # OpenAI API 호출
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",  # GPT 모델 지정
                 messages=conversation_history,  # 대화 이력을 그대로 전달
-                max_tokens=100,  # 응답 길이 제한
-                temperature=0.7  # 창의적인 답변을 위한 온도 설정
+                max_tokens=150,  # 응답 길이 제한
+                temperature=0.9  # 창의적인 답변을 위한 온도 설정
             )
 
             # 응답 내용 추출
